@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NFLRookieGuide", "NFLRookieGuide\NFLRookieGuide.csproj", "{493C53AC-3CAF-47B1-B449-B587A4B2AB9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{493C53AC-3CAF-47B1-B449-B587A4B2AB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{493C53AC-3CAF-47B1-B449-B587A4B2AB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{493C53AC-3CAF-47B1-B449-B587A4B2AB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{493C53AC-3CAF-47B1-B449-B587A4B2AB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C84AE32-F8AA-4FD2-8A03-475DF8B40460}
+	EndGlobalSection
+EndGlobal
