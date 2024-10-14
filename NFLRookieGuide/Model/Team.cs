@@ -10,6 +10,6 @@
         public string Stadium { get; set; }
         public DateTime Date_founded { get; set; }
         public string City { get; set; }
-        public List<Player> Players { get; set; }
+        public List<Player> Players { get; set; } //This teams list of players
     }
 }

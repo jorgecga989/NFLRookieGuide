@@ -16,7 +16,7 @@ namespace NFLRookieGuide.Context
             var folder = Environment.SpecialFolder.MyDocuments;
             var path = Environment.GetFolderPath(folder);
             var dbPath = Path.Join(path, "playerbase.db");
-            optionbuilder.UseSqlite($"Data Source={dbPath}");
+            optionbuilder.UseSqlite($"Data Source/playerbase.db");
         }
     }
 }
