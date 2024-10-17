@@ -184,13 +184,13 @@ namespace NFLRookieGuide.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PositionId")
+                    b.Property<int>("PositionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Stats")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TeamId")
+                    b.Property<int>("TeamId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -445,13 +445,21 @@ namespace NFLRookieGuide.Migrations
 
             modelBuilder.Entity("NFLRookieGuide.Model.Player", b =>
                 {
-                    b.HasOne("NFLRookieGuide.Model.Position", null)
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position")
                         .WithMany("Players")
-                        .HasForeignKey("PositionId");
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("NFLRookieGuide.Model.Team", null)
+                    b.HasOne("NFLRookieGuide.Model.Team", "Team")
                         .WithMany("Players")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Position");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.Roster", b =>

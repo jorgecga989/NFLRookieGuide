@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NFLRookieGuide.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialcreate : Migration
+    public partial class UpdatedMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -235,8 +235,8 @@ namespace NFLRookieGuide.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Photo = table.Column<string>(type: "TEXT", nullable: false),
                     Age = table.Column<int>(type: "INTEGER", nullable: false),
-                    PositionId = table.Column<int>(type: "INTEGER", nullable: true),
-                    TeamId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TeamId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PositionId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -245,12 +245,14 @@ namespace NFLRookieGuide.Migrations
                         name: "FK_Player_Positions_PositionId",
                         column: x => x.PositionId,
                         principalTable: "Positions",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Player_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
