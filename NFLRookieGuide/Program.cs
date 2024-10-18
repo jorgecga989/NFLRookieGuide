@@ -16,6 +16,7 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = IdentityConstants.ApplicationScheme;
@@ -29,7 +30,13 @@ builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddSignInManager();
 
+builder.Services.AddScoped<DatabaseSeeder>();
 var app = builder.Build();
+{
+    using var scope = app.Services.CreateScope();
+    var seeder = scope.ServiceProvider.GetService<DatabaseSeeder>();
+    await seeder!.Seed();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

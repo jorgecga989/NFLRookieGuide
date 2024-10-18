@@ -34,31 +34,38 @@ namespace NFLRookieGuide.Context
                 await _context!.SaveChangesAsync();
             }
 
+            if (!_context.Positions.Any())
+            {
+                var positions = GetPosition();
+                _context.Positions.AddRange(positions);
+                await _context!.SaveChangesAsync();
+            }
+
         }
         private List<Player> GetPlayers()
         {
+            var teams = GetTeams();
             return
             [
-             new Player { Name = "Patrick Mahomes", Stats = 4500, Description = "Dynamic quarterback with exceptional playmaking skills.", Photo = "patrick_mahomes.png", Age = 28,  },
-            new Player { Name = "Josh Allen", Stats = 4000, Description = "Strong-armed quarterback known for his rushing ability.", Photo = "josh_allen.png", Age = 28,  },
-            new Player { Name = "Aaron Rodgers", Stats = 3700, Description = "Veteran quarterback with a strong arm and leadership skills.", Photo = "aaron_rodgers.png", Age = 39,  },
-            new Player { Name = "Dak Prescott", Stats = 3700, Description = "Accurate passer and dynamic leader on the field.", Photo = "dak_prescott.png", Age = 30, },
-            new Player { Name = "Derrick Henry", Stats = 1500, Description = "Powerful running back known for breaking tackles.", Photo = "derrick_henry.png", Age = 30, },
-            new Player { Name = "Saquon Barkley", Stats = 1400, Description = "Athletic running back with great speed and vision.", Photo = "saquon_barkley.png", Age = 27, },
-            new Player { Name = "Christian McCaffrey", Stats = 1800, Description = "Versatile running back who excels in both rushing and receiving.", Photo = "christian_mccaffrey.png", Age = 27,  },
-            new Player { Name = "Davante Adams", Stats = 1500, Description = "Elite wide receiver with exceptional route-running skills.", Photo = "davante_adams.png", Age = 31,  },
-            new Player { Name = "Tyreek Hill", Stats = 1700, Description = "Explosive wide receiver known for his deep threats.", Photo = "tyreek_hill.png", Age = 30, },
-            new Player { Name = "Stefon Diggs", Stats = 1500, Description = "Dynamic wide receiver with great hands and agility.", Photo = "stefon_diggs.png", Age = 30,  },
-            new Player { Name = "Justin Jefferson", Stats = 1600, Description = "Young and talented wide receiver with incredible route running.", Photo = "justin_jefferson.png", Age = 25, },
-            new Player { Name = "Travis Kelce", Stats = 1200, Description = "Top tight end known for his excellent receiving skills.", Photo = "travis_kelce.png", Age = 34, },
-            new Player { Name = "George Kittle", Stats = 1000, Description = "Dynamic tight end with great athleticism and hands.", Photo = "george_kittle.png", Age = 30,  },
-            new Player { Name = "Mark Andrews", Stats = 900, Description = "Talented tight end known for his reliable hands.", Photo = "mark_andrews.png", Age = 28,  },
-            new Player { Name = "Kyle Pitts", Stats = 800, Description = "Rising star tight end with impressive athleticism.", Photo = "kyle_pitts.png", Age = 23, },
-            new Player { Name = "A.J. Brown", Stats = 1200, Description = "Strong wide receiver with excellent yards after catch.", Photo = "aj_brown.png", Age = 26,  },
-            new Player { Name = "DeAndre Hopkins", Stats = 1200, Description = "Proven wide receiver known for his incredible catching ability.", Photo = "deandre_hopkins.png", Age = 31,  },
-            new Player { Name = "CeeDee Lamb", Stats = 1000, Description = "Talented wide receiver with great potential.", Photo = "ceedee_lamb.png", Age = 24,  },
-            new Player { Name = "Chase Claypool", Stats = 800, Description = "Promising wide receiver with strong physicality.", Photo = "chase_claypool.png", Age = 25,  },
-            new Player { Name = "Tua Tagovailoa", Stats = 3800, Description = "Young quarterback known for his accuracy and decision-making.", Photo = "tua_tagovailoa.png", Age = 26, }
+                new Player { Name = "Patrick Mahomes", Stats = 5000, Description = "Quarterback known for his arm strength and playmaking ability.", Photo = "patrick_mahomes.png", Age = 28, Team = teams[3], Position = new Position { Name = "Quarterback" } },
+            new Player { Name = "Aaron Rodgers", Stats = 4000, Description = "Experienced quarterback with precision passing skills.", Photo = "aaron_rodgers.png", Age = 40, Team = teams[1], Position = new Position { Name = "Quarterback" } },
+            new Player { Name = "Tom Brady", Stats = 4600, Description = "Legendary quarterback with multiple Super Bowl titles.", Photo = "tom_brady.png", Age = 46, Team = teams[2], Position = new Position { Name = "Quarterback" } },
+            new Player { Name = "Dak Prescott", Stats = 4000, Description = "Dual-threat quarterback known for his leadership.", Photo = "dak_prescott.png", Age = 30, Team = teams[3], Position = new Position { Name = "Quarterback" } },
+            new Player { Name = "Josh Allen", Stats = 4500, Description = "Strong-armed quarterback with rushing ability.", Photo = "josh_allen.png", Age = 27, Team = teams[4], Position = new Position { Name = "Quarterback" } },
+            new Player { Name = "Derrick Henry", Stats = 1500, Description = "Powerful running back known for his speed and strength.", Photo = "derrick_henry.png", Age = 29, Team = teams[0], Position = new Position { Name = "Running Back" } },
+            new Player { Name = "Christian McCaffrey", Stats = 1400, Description = "Versatile running back with excellent receiving skills.", Photo = "christian_mccaffrey.png", Age = 28, Team = teams[1], Position = new Position { Name = "Running Back" } },
+            new Player { Name = "Ezekiel Elliott", Stats = 1000, Description = "Consistent running back with a strong track record.", Photo = "ezekiel_elliott.png", Age = 29, Team = teams[3], Position = new Position { Name = "Running Back" } },
+            new Player { Name = "Alvin Kamara", Stats = 900, Description = "Dynamic running back with great receiving skills.", Photo = "alvin_kamara.png", Age = 28, Team = teams[2], Position = new Position { Name = "Running Back" } },
+            new Player { Name = "Davante Adams", Stats = 1500, Description = "Elite wide receiver known for his route running.", Photo = "davante_adams.png", Age = 31, Team = teams[1], Position = new Position { Name = "Wide Receiver" } },
+            new Player { Name = "Tyreek Hill", Stats = 1700, Description = "Explosive wide receiver with breakaway speed.", Photo = "tyreek_hill.png", Age = 30, Team = teams[0], Position = new Position { Name = "Wide Receiver" } },
+            new Player { Name = "Stefon Diggs", Stats = 1500, Description = "Talented wide receiver with great hands.", Photo = "stefon_diggs.png", Age = 30, Team = teams[4], Position = new Position { Name = "Wide Receiver" } },
+            new Player { Name = "DeAndre Hopkins", Stats = 1400, Description = "Outstanding receiver with great catch radius.", Photo = "deandre_hopkins.png", Age = 31, Team = teams[2], Position = new Position { Name = "Wide Receiver" } },
+            new Player { Name = "George Kittle", Stats = 1000, Description = "Top tight end known for his blocking and receiving.", Photo = "george_kittle.png", Age = 30, Team = teams[0], Position = new Position { Name = "Tight End" } },
+            new Player { Name = "Travis Kelce", Stats = 1200, Description = "Dynamic tight end with great receiving skills.", Photo = "travis_kelce.png", Age = 34, Team = teams[1], Position = new Position { Name = "Tight End" } },
+            new Player { Name = "Mark Andrews", Stats = 1000, Description = "Prolific tight end with good route running.", Photo = "mark_andrews.png", Age = 28, Team = teams[3], Position = new Position { Name = "Tight End" } },
+            new Player { Name = "Darren Waller", Stats = 900, Description = "Athletic tight end known for his big plays.", Photo = "darren_waller.png", Age = 31, Team = teams[4], Position = new Position { Name = "Tight End" } },
+            new Player { Name = "Justin Jefferson", Stats = 1600, Description = "Young star receiver known for his big-play ability.", Photo = "justin_jefferson.png", Age = 25, Team = teams[0], Position = new Position { Name = "Wide Receiver" } },
+            new Player { Name = "A.J. Brown", Stats = 1300, Description = "Strong wide receiver with good catching ability.", Photo = "aj_brown.png", Age = 26, Team = teams[1], Position = new Position { Name = "Wide Receiver" } }
             ];
         }
 
@@ -94,6 +101,21 @@ namespace NFLRookieGuide.Context
             new Team { Name = "Philadelphia Eagles", Logo = "eagles.png", Colours = "Midnight Green, Silver", Mascot = "Swoop", Stadium = "lincoln_financial_field.png", Date_founded = new DateTime(1933, 1, 1), City = "Philadelphia" },
             new Team { Name = "Pittsburgh Steelers", Logo = "steelers.png", Colours = "Black, Gold", Mascot = "Steely McBeam", Stadium = "acri_sure_stadium.png", Date_founded = new DateTime(1933, 1, 1), City = "Pittsburgh" },
             new Team { Name = "San Francisco 49ers", Logo = "49ers.png", Colours = "Scarlet Red, Gold", Mascot = "Sourdough Sam", Stadium = "levi_stadium.png", Date_founded = new DateTime(1946, 1, 1), City = "Santa Clara" },
+            new Team { Name = "Seattle Seahawks", Logo = "seahawks.png", Colours = "Navy, Green", Mascot = "Blitz", Stadium = "lumen_field.png", Date_founded = new DateTime(1976, 1, 1), City = "Seattle" },
+            new Team { Name = "Tampa Bay Buccaneers", Logo = "buccaneers.png", Colours = "Red, Black", Mascot = "Captain Fear", Stadium = "raymond_james_stadium.png", Date_founded = new DateTime(1976, 1, 1), City = "Tampa" },
+            new Team { Name = "Tennessee Titans", Logo = "titans.png", Colours = "Navy, Titans Blue", Mascot = "T-Rac", Stadium = "nissan_stadium.png", Date_founded = new DateTime(1960, 1, 1), City = "Nashville" },
+            new Team { Name = "Washington Commanders", Logo = "commanders.png", Colours = "Burgundy, Gold", Mascot = "Major Tuddy", Stadium = "fedex_field.png", Date_founded = new DateTime(1932, 1, 1),City = "Landover"}
+            ];
+        }
+
+        private List<Position> GetPosition()
+        {
+            return
+            [
+                new Position { Name = "Quarterback"},
+                new Position { Name = "Running Back"},
+                new Position { Name = "Wide Reciever"},
+                new Position { Name = "Tight End"},
             ];
         }
     }
