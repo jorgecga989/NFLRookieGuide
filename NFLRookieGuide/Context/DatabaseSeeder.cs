@@ -19,34 +19,32 @@ namespace NFLRookieGuide.Context
         public async Task Seed()
         {
             await _context.Database.MigrateAsync();
-
-            if(!_context.Player.Any())
-            {
-                var players = GetPlayers();
-                _context.Player.AddRange(players);
-                await _context!.SaveChangesAsync();
-            }
+            var teams = GetTeams();
+            var positions = GetPosition();
 
             if (!_context.Teams.Any())
             {
-                var teams = GetTeams();
                 _context.Teams.AddRange(teams);
                 await _context!.SaveChangesAsync();
             }
 
             if (!_context.Positions.Any())
             {
-                var positions = GetPosition();
                 _context.Positions.AddRange(positions);
                 await _context!.SaveChangesAsync();
             }
 
-        }
-        private List<Player> GetPlayers()
-        {
-            var teams = GetTeams();
-            var position =GetPosition();
+            if(!_context.Player.Any())
+            {
+                var players = GetPlayers(teams, positions);
+                _context.Player.AddRange(players);
+                await _context!.SaveChangesAsync();
+            }
 
+
+        }
+        private List<Player> GetPlayers(List<Team> teams, List<Position> position)
+        {
             var p1 = new Player { Name = "Patrick Mahomes", Stats = 5000, Description = "Quarterback known for his arm strength and playmaking ability.", Photo = "patrick_mahomes.png", Age = 28, Team = teams[15], Position = position[0] };
             var p2 = new Player { Name = "Aaron Rodgers", Stats = 4000, Description = "Experienced quarterback with precision passing skills.", Photo = "aaron_rodgers.png", Age = 40, Team = teams[24], Position = position[0] };
             var p3 = new Player { Name = "Tom Brady", Stats = 4600, Description = "Legendary quarterback with multiple Super Bowl titles.", Photo = "tom_brady.png", Age = 46, Team = teams[21], Position = position[0] };

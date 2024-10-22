@@ -11,7 +11,7 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241018080751_InitialCreate")]
+    [Migration("20241022114218_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
