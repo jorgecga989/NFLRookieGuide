@@ -1,6 +1,21 @@
 ﻿@page "/"
+@using NFLRookieGuide.Context
+@inject TeamProvider TeamProvider
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<h1></h1>
+<div align="center" style="height: 100vh; display: table;">
+    <div style="display: table-cell; vertical-align: middle;">
+        <button @onclick="GoToTeams">Teams</button>
+    </div>
+</div>
 
+
+@code {
+
+    private void GoToTeams()
+    {
+        NavigationManager.NavigateTo("/teams");
+    }
+}

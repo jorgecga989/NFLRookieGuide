@@ -31,6 +31,9 @@ builder.Services.AddIdentityCore<User>()
     .AddSignInManager();
 
 builder.Services.AddScoped<DatabaseSeeder>();
+builder.Services.AddScoped<PlayerProvider>();
+builder.Services.AddScoped<TeamProvider>();
+
 var app = builder.Build();
 {
     using var scope = app.Services.CreateScope();
