@@ -83,7 +83,7 @@
 
     public async Task RegisterUser(EditContext editContext)
     {
-        var user = new User
+        var user = new User 
             {
                 UserName = Model.Email,
                 Email = Model.Email,
@@ -118,7 +118,7 @@
 
         [Required(ErrorMessage = "Enter the same password")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]//comparing both inputs
         public string ConfirmPassword { get; set; } = "";
 
         [Required(ErrorMessage = "Please enter your first name")]

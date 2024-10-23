@@ -1,0 +1,38 @@
+﻿@page "/Info/{id:int}"
+@using NFLRookieGuide.Context
+@using NFLRookieGuide.Model
+@inject TeamProvider TeamProvider
+@inject NavigationManager NavigationManager
+
+<PageTitle>Info - @chosenTeam?.Name</PageTitle>
+
+@if (teams is null)
+{
+    <h4>No team found for that id</h4>
+}
+else
+{
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Team</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@chosenTeam!.Name</li>
+            </ol>
+        </nav>
+    </div>
+}
+
+@code {
+
+    public int Id { get; set; }
+
+    private Team? chosenTeam;
+
+    private IEnumerable<Team> teams;
+
+    protected override async Task OnInitializedAsync()
+    {
+        teams = await TeamProvider.GetAllTeamsAsync();
+        chosenTeam = teams.SingleOrDefault(p => p.Id == Id);
+    }
+}

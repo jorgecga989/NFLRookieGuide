@@ -1,7 +1,9 @@
 ﻿@page "/teams"
+@using Microsoft.EntityFrameworkCore
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
 @inject TeamProvider TeamProvider
+@inject NavigationManager NavigationManager
 
 <PageTitle>Teams</PageTitle>
 
@@ -28,7 +30,7 @@
              <td>@team.Date_founded</td>
              <td>@team.City</td>
              <td>
-                 <button type="button" class="btn btn-secondary">Info</button>
+                 <button type="button" class="btn btn-secondary" @onclick="() => GoToTeamProfile(team)">Info</button>
              </td>
          </tr>
         }    
@@ -37,10 +39,20 @@
 
 
 @code {
+
+    private void GoToTeamProfile(Team teams)
+    {
+        NavigationManager.NavigateTo($"/Info/{teams.Id}");
+    }
+
     private IEnumerable<Team> teams;
 
     protected override async Task OnInitializedAsync()
     {
         teams = await TeamProvider.GetAllTeamsAsync();
+
     }
+
+    
+
 }
