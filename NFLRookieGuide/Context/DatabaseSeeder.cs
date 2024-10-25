@@ -26,7 +26,7 @@ namespace NFLRookieGuide.Context
             {
                 _context.Teams.AddRange(teams);
                 await _context!.SaveChangesAsync();
-            }
+            } //fills the database with values from the GetTeams method 
 
             if (!_context.Positions.Any())
             {

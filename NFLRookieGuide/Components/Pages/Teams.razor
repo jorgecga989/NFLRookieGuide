@@ -20,7 +20,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var team in teams)
+        @foreach(var team in teams) 
+        @*Loops through every team in the database to display their properties*@        
         {
           <tr>
              <th scope="row">@team.Id</th>
@@ -50,8 +51,7 @@
     protected override async Task OnInitializedAsync()
     {
         teams = await TeamProvider.GetAllTeamsAsync();
-
-    }
+    } //gets teams from the database through the provider
 
     
 

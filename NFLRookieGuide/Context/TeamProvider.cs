@@ -10,12 +10,12 @@ namespace NFLRookieGuide.Context
         public TeamProvider(DatabaseContext context)
         {
             _context = context;
-        }
+        } //gets context(teams) 
 
         public async Task<List<Team>> GetAllTeamsAsync()
         {
             return await _context.Teams.OrderBy(team => team.Name).ToListAsync();
-        }
+        } //makes a list of teams in alphabetical order
 
         public Team? GetTeam(int id)
         {
