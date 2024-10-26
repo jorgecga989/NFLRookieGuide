@@ -27,6 +27,23 @@
             font-size: 200px
         }
     </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-Aligned Text with Image</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .top-aligned {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px; /* Add some padding from the top */
+        }
+
+        .content {
+            margin-bottom:10px; /* Space between text and image */
+        }
+    </style>
 </head>
 
 @if (teams is null)
@@ -46,6 +63,29 @@ else
             </ol>
         </nav>
     </div>
+    <div class="container top-aligned margin-bottom">
+        <div class="content text-center">
+            <h1>Logo</h1>
+            <img src="/logos/@chosenTeam.Logo" alt="Description of Image" width="400" height="400" class="img-fluid" />
+        </div>
+    </div>
+
+    <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-third w3-center">
+               <img src="stadiums/@chosenTeam.Stadium" alt="stadium" width="600" height="600" class="img-fluid"/>
+            </div>
+            <div class="w3-twothird">
+                <h1>Other Information</h1>
+                <h5 class="w3-padding-32"></h5>
+
+                <p class="w3-text-grey">
+                   
+                </p>
+            </div>
+        </div>
+    </div>
+
 }
  
 
@@ -63,4 +103,5 @@ else
         teams = await TeamProvider.GetAllTeamsAsync();
         chosenTeam = teams.SingleOrDefault(p => p.Id == Id);
     }
+
 }
