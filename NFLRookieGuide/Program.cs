@@ -30,6 +30,7 @@ builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddSignInManager();
 
+builder.Services.AddHttpClient<APIService>();
 builder.Services.AddScoped<DatabaseSeeder>();
 builder.Services.AddScoped<PlayerProvider>();
 builder.Services.AddScoped<TeamProvider>();

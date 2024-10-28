@@ -11,5 +11,12 @@
         public DateTime Date_founded { get; set; }
         public string City { get; set; }
         public List<Player> Players { get; set; } //This teams list of players
+
+        public string PrimaryColour()
+        {
+            string[] DisplayColours = Colours.Split(" , ");
+            return DisplayColours[0].ToLower();
+            
+        }
     }
 }
