@@ -14,7 +14,7 @@
 
         public string PrimaryColour()
         {
-            string[] DisplayColours = Colours.Split(" , ");
+            string[] DisplayColours = Colours.Split(" , ");//takes the colours property and takes the first word, the colour I need
             return DisplayColours[0].ToLower();
             
         }
