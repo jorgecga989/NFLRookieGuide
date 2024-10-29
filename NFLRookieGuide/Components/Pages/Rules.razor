@@ -3,8 +3,78 @@
 @using NFLRookieGuide.Model
 @inject NavigationManager NavigationManager
 
+<head>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Lato", sans-serif
+        }
 
-<h3>Rules</h3>
+        .w3-bar, h1, button {
+            font-family: "Montserrat", sans-serif
+        }
+
+        .fa-anchor, .fa-coffee {
+            font-size: 200px
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-Aligned Text with Image</title>
+</head>
+
+<header class="w3-container w3-black w3-center" style="padding:80px 16px">
+    <h1 class="w3-margin w3-jumbo">Rules</h1>
+</header>
+
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+    <div class="w3-content">
+        <div class="w3-third w3-center">
+            <img src="" alt="" width="600" height="600" class="img-fluid" />
+        </div>
+        <div class="w3-twothird">
+            <h1>Scoring</h1>
+            <h5 class="w3-padding-20">Scoring in the NFL is way different than any other sport, basic scoring rules are as listed:</h5>
+            <ul class="w3-text-grey">
+                <li>Touchdown: 6 points</li>
+                <li>Extra Point (After touchdown) 1 point</li>
+                <li>Two-Point Conversion (after touchdown): 2 points</li>
+                <li>Field Goal: 3 points</li>
+                <li>Safety: 2 points</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="w3-row-padding w3-padding-64 w3-container">
+    <div class="w3-content">
+        <div class="w3-twothird">
+            <h1>Times</h1>
+            <h5 class="w3-padding-20">Game duration details:</h5>
+            <ul class="w3-text-grey">
+                <li>Four quarters, each lasting 15 minutes.</li>
+                <li>Halftime is typically 12 minutes.</li>
+            </ul>
+            <h5 class="w3-padding-20">Play clock details:</h5>
+            <ul class="w3-text-grey">
+                <li>Teams have 25 or 40 seconds to start the next play, depending on the situation or they will be penalized with a 5 yard loss.</li>
+                <li>If a play follows a snap (e.g., after a touchdown), the clock resets to 40 seconds.</li>
+                <li>Teams often use the play clock strategically to manage game tempo, conserve time, or set up specific plays.</li>
+                <li>The referee can reset the play clock if there's a stoppage due to injury, timeout, or other reasons.</li>
+            </ul>
+        </div>
+        <div class="w3-third w3-center">
+            <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+        </div>
+    </div>
+</div>
+
 
 @code {
 
