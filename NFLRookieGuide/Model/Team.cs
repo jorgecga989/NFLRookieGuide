@@ -18,5 +18,11 @@
             return DisplayColours[0].ToLower();
             
         }
+
+        //public string StadiumName()
+        //{
+        //    string[] NameStadium = Stadium.IndexOf(".");
+
+        //}
     }
 }
