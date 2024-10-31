@@ -36,8 +36,8 @@ namespace NFLRookieGuide.Context
 
             if (!_context.Plays.Any())
             {
-                var plays = GetPlays(positions);
-                _context.Plays.AddRange(plays);
+                var plays = GetPlays(positions); //passes positions so they can be used here
+                _context.Plays.AddRange(plays); //adds the plays made
                 await _context!.SaveChangesAsync();
             }
 
@@ -65,9 +65,9 @@ namespace NFLRookieGuide.Context
             var p11 = new Player { Name = "Tyreek Hill", Stats = 1700, Description = "Explosive wide receiver with breakaway speed.", Photo = "tyreek_hill.png", Age = 30, Team = teams[19], Position = position[2] };
             var p12 = new Player { Name = "Stefon Diggs", Stats = 1500, Description = "Talented wide receiver with great hands.", Photo = "stefon_diggs.png", Age = 30, Team = teams[12], Position = position[2] };
             var p13 = new Player { Name = "DeAndre Hopkins", Stats = 1400, Description = "Outstanding receiver with great catch radius.", Photo = "deandre_hopkins.png", Age = 31, Team = teams[30], Position = position[2] };
-            var p14 = new Player { Name = "George Kittle", Stats = 1000, Description = "Top tight end known for his blocking and receiving.", Photo = "george_kittle.png", Age = 30, Team = teams[27], Position = position[3] };
-            var p15 = new Player { Name = "Travis Kelce", Stats = 1200, Description = "Dynamic tight end with great receiving skills.", Photo = "travis_kelce.png", Age = 34, Team = teams[15], Position = position[3] };
-            var p16 = new Player { Name = "Mark Andrews", Stats = 1000, Description = "Prolific tight end with good route running.", Photo = "mark_andrews.png", Age = 28, Team = teams[2], Position = position[3] };
+            var p14 = new Player { Name = "George Kittle", Stats = 1000, Description = "Top tight end known for his blocking and receiving.", Photo = "george_kittle.png", Age = 30, Team = teams[27], Position = position[4] };
+            var p15 = new Player { Name = "Travis Kelce", Stats = 1200, Description = "Dynamic tight end with great receiving skills.", Photo = "travis_kelce.png", Age = 34, Team = teams[15], Position = position[4] };
+            var p16 = new Player { Name = "Mark Andrews", Stats = 1000, Description = "Prolific tight end with good route running.", Photo = "mark_andrews.png", Age = 28, Team = teams[2], Position = position[4] };
             var p17 = new Player { Name = "Darren Waller", Stats = 900, Description = "Athletic tight end known for his big plays.", Photo = "darren_waller.png", Age = 31, Team = teams[23], Position = position[3] };
             var p18 = new Player { Name = "Justin Jefferson", Stats = 1600, Description = "Young star receiver known for his big-play ability.", Photo = "justin_jefferson.png", Age = 25, Team = teams[20], Position = position[2] };
             var p19 = new Player { Name = "A.J. Brown", Stats = 1300, Description = "Strong wide receiver with good catching ability.", Photo = "aj_brown.png", Age = 26, Team = teams[25], Position = position[2] };
@@ -117,7 +117,15 @@ namespace NFLRookieGuide.Context
         {
             return 
                 [
-                new Play {Name="Inside Zone", Position1 = positions[2], Position2 = positions[3], Position3 = positions[0], Position6 = positions[4],Position9 = positions[1],}
+                new Play {Name="Inside Zone", Diagram ="InsideZone.jpg", Position1 = positions[2], Position2 = positions[3], Position3 = positions[0], Position6 = positions[4],Position9 = positions[1]},
+                new Play {Name="Power O", Diagram ="PowerO.jpg", Position1 = positions[2], Position3 = positions[0], Position5 = positions[3],Position8 = positions[4],Position9= positions[1]},
+                new Play {Name="Play Action", Diagram ="PlayAction.jpg", Position2 = positions[2], Position5 = positions[4],Position7 = positions[3], Position8=positions[0], Position9=positions[1]},
+                new Play {Name="Four Vertical", Diagram ="FourVertical.jpg", Position1 = positions[2], Position9 = positions[0], Position5 = positions[4],Position8 = positions[1],Position7 = positions[3]},
+                new Play {Name="CurlFlat", Diagram ="CurlFlat.jpg", Position1 = positions[2], Position2 = positions[3], Position8 = positions[0], Position4 = positions[4],Position9 = positions[1]},
+                new Play {Name="Mesh", Diagram ="Mesh.png", Position1 = positions[2], Position4 = positions[3], Position8 = positions[0], Position5 = positions[4],Position9 = positions[1]},
+                new Play {Name="Dagger", Diagram ="Dagger.jpg", Position1 = positions[2], Position2 = positions[3], Position3 = positions[0], Position5 = positions[4],Position8 = positions[1]},
+                new Play {Name="Levels", Diagram ="Levels.jpg", Position1 = positions[2], Position6 = positions[3], Position9 = positions[0], Position5 = positions[4],Position8 = positions[1]},
+                new Play {Name="Screen Pass", Diagram ="ScreenPass.jpg", Position6 = positions[2], Position5 = positions[3], Position9 = positions[0], Position1 = positions[4],Position8 = positions[1]}
                 ];
         }
 

@@ -1,0 +1,21 @@
+﻿@page "/plays"
+@using Microsoft.EntityFrameworkCore
+@using NFLRookieGuide.Context
+@using NFLRookieGuide.Model
+@inject PlayProvider PlayProvider
+@inject NavigationManager NavigationManager
+
+<h1 style="text-align: center">Plays</h1>
+
+@foreach(var play in plays)
+{
+    <img src="/plays/@play.Diagram"/>
+}
+@code {
+    private IEnumerable<Play> plays;
+
+    protected override async Task OnInitializedAsync()
+    {
+        plays = await PlayProvider.GetAllPlaysAsync();
+    } //gets teams from the database through the provider
+}

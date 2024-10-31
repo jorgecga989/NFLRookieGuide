@@ -34,6 +34,7 @@ builder.Services.AddHttpClient<APIService>();
 builder.Services.AddScoped<DatabaseSeeder>();
 builder.Services.AddScoped<PlayerProvider>();
 builder.Services.AddScoped<TeamProvider>();
+builder.Services.AddScoped<PlayProvider>();
 
 var app = builder.Build();
 {

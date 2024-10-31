@@ -217,6 +217,7 @@ namespace NFLRookieGuide.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Diagram = table.Column<string>(type: "TEXT", nullable: false),
                     Position1Id = table.Column<int>(type: "INTEGER", nullable: true),
                     Position2Id = table.Column<int>(type: "INTEGER", nullable: true),
                     Position3Id = table.Column<int>(type: "INTEGER", nullable: true),

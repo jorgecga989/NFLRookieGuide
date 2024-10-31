@@ -11,7 +11,7 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241031153519_InitialCreate")]
+    [Migration("20241031172910_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -153,6 +153,10 @@ namespace NFLRookieGuide.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Diagram")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()

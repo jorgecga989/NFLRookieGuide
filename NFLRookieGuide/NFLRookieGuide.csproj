@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\database\" />
+    <Folder Include="wwwroot\plays\" />
     <Folder Include="wwwroot\stadiums\" />
   </ItemGroup>
 

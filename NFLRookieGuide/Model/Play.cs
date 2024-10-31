@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Diagram { get; set; }
         public Position? Position1 { get; set; }
         public Position? Position2 { get; set; }
         public Position? Position3 { get; set; }
