@@ -53,20 +53,6 @@ namespace NFLRookieGuide.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Play",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Number_players = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Play", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Positions",
                 columns: table => new
                 {
@@ -225,6 +211,79 @@ namespace NFLRookieGuide.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Plays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Position1Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position2Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position3Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position4Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position5Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position6Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position7Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position8Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position9Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    Position10Id = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Plays", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position10Id",
+                        column: x => x.Position10Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position1Id",
+                        column: x => x.Position1Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position2Id",
+                        column: x => x.Position2Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position3Id",
+                        column: x => x.Position3Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position4Id",
+                        column: x => x.Position4Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position5Id",
+                        column: x => x.Position5Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position6Id",
+                        column: x => x.Position6Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position7Id",
+                        column: x => x.Position7Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position8Id",
+                        column: x => x.Position8Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Plays_Positions_Position9Id",
+                        column: x => x.Position9Id,
+                        principalTable: "Positions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Player",
                 columns: table => new
                 {
@@ -268,9 +327,9 @@ namespace NFLRookieGuide.Migrations
                 {
                     table.PrimaryKey("PK_RosterPlay", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RosterPlay_Play_PlayId",
+                        name: "FK_RosterPlay_Plays_PlayId",
                         column: x => x.PlayId,
-                        principalTable: "Play",
+                        principalTable: "Plays",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -355,6 +414,56 @@ namespace NFLRookieGuide.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position10Id",
+                table: "Plays",
+                column: "Position10Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position1Id",
+                table: "Plays",
+                column: "Position1Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position2Id",
+                table: "Plays",
+                column: "Position2Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position3Id",
+                table: "Plays",
+                column: "Position3Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position4Id",
+                table: "Plays",
+                column: "Position4Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position5Id",
+                table: "Plays",
+                column: "Position5Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position6Id",
+                table: "Plays",
+                column: "Position6Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position7Id",
+                table: "Plays",
+                column: "Position7Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position8Id",
+                table: "Plays",
+                column: "Position8Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plays_Position9Id",
+                table: "Plays",
+                column: "Position9Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RosterPlay_PlayId",
                 table: "RosterPlay",
                 column: "PlayId");
@@ -408,7 +517,7 @@ namespace NFLRookieGuide.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Play");
+                name: "Plays");
 
             migrationBuilder.DropTable(
                 name: "Player");

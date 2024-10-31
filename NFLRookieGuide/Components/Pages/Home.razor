@@ -26,7 +26,7 @@
 <div class="button-container" >
     <button type="button" class="big-button" style="background-color: #001F5B; color: white;" @onclick="GoToTeams">Teams</button>
     <button type="button" class="big-button" style="background-color: #A50034; color: white;" @onclick="GoToRules">Rules</button>
-    <button type="button" class="big-button" style="background-color: #FFFFFF">Build Your Team</button>
+    <button type="button" class="big-button" style="background-color: #FFFFFF" @onclick="GoToSelection">Build Your Team</button>
 </div>
 
 
@@ -40,5 +40,10 @@
     private void GoToRules()
     {
         NavigationManager.NavigateTo("/rules");
+    }
+
+    private void GoToSelection()
+    {
+        NavigationManager.NavigateTo("/selection");
     }
 }

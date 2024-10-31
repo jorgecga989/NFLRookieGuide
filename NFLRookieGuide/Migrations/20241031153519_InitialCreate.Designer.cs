@@ -11,7 +11,7 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241022114218_InitialCreate")]
+    [Migration("20241031153519_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -158,12 +158,59 @@ namespace NFLRookieGuide.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Number_players")
+                    b.Property<int?>("Position10Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position1Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position2Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position3Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position4Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position5Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position6Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position7Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position8Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Position9Id")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Play");
+                    b.HasIndex("Position10Id");
+
+                    b.HasIndex("Position1Id");
+
+                    b.HasIndex("Position2Id");
+
+                    b.HasIndex("Position3Id");
+
+                    b.HasIndex("Position4Id");
+
+                    b.HasIndex("Position5Id");
+
+                    b.HasIndex("Position6Id");
+
+                    b.HasIndex("Position7Id");
+
+                    b.HasIndex("Position8Id");
+
+                    b.HasIndex("Position9Id");
+
+                    b.ToTable("Plays");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.Player", b =>
@@ -444,6 +491,69 @@ namespace NFLRookieGuide.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("NFLRookieGuide.Model.Play", b =>
+                {
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position10")
+                        .WithMany()
+                        .HasForeignKey("Position10Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position1")
+                        .WithMany()
+                        .HasForeignKey("Position1Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position2")
+                        .WithMany()
+                        .HasForeignKey("Position2Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position3")
+                        .WithMany()
+                        .HasForeignKey("Position3Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position4")
+                        .WithMany()
+                        .HasForeignKey("Position4Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position5")
+                        .WithMany()
+                        .HasForeignKey("Position5Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position6")
+                        .WithMany()
+                        .HasForeignKey("Position6Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position7")
+                        .WithMany()
+                        .HasForeignKey("Position7Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position8")
+                        .WithMany()
+                        .HasForeignKey("Position8Id");
+
+                    b.HasOne("NFLRookieGuide.Model.Position", "Position9")
+                        .WithMany()
+                        .HasForeignKey("Position9Id");
+
+                    b.Navigation("Position1");
+
+                    b.Navigation("Position10");
+
+                    b.Navigation("Position2");
+
+                    b.Navigation("Position3");
+
+                    b.Navigation("Position4");
+
+                    b.Navigation("Position5");
+
+                    b.Navigation("Position6");
+
+                    b.Navigation("Position7");
+
+                    b.Navigation("Position8");
+
+                    b.Navigation("Position9");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.Player", b =>

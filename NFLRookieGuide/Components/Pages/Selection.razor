@@ -1,0 +1,30 @@
+﻿@page "/selection"
+@using Microsoft.EntityFrameworkCore
+@using NFLRookieGuide.Context
+@using NFLRookieGuide.Model
+@inject NavigationManager NavigationManager
+
+<style>
+    .big-button {
+        width: 500px;
+        height: 120px;
+        font-size: 40px;
+        margin: 40px 0;
+    }
+</style>
+
+<h1 style="text-align: center; padding-top: 100px; font-family: " Lato", sans-serif">Would you like to choose a play or build your own?</h1>
+
+<div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+    <button type="button" class="big-button" style="background-color: #4B8B3B; color: white;" @onclick="GoToPlays">Browse Plays</button>
+    <button type="button" class="big-button" style="background-color: #FFD100; color: white;">Build Your Own</button>
+</div>
+
+@code {
+
+    private void GoToPlays()
+    {
+        NavigationManager.NavigateTo("/plays");
+    }
+
+}

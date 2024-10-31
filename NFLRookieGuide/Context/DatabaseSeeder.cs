@@ -34,6 +34,13 @@ namespace NFLRookieGuide.Context
                 await _context!.SaveChangesAsync();
             }
 
+            if (!_context.Plays.Any())
+            {
+                var plays = GetPlays(positions);
+                _context.Plays.AddRange(plays);
+                await _context!.SaveChangesAsync();
+            }
+
             if(!_context.Player.Any())
             {
                 var players = GetPlayers(teams, positions);
@@ -106,6 +113,13 @@ namespace NFLRookieGuide.Context
            new Team { Name = "Washington Commanders", Logo = "commanders.png", Colours = "Red , Gold", Mascot = "Major_Tuddy.jpg", Stadium = "fedex_field.jpg", Date_founded = new DateTime(1932, 1, 1), City = "Landover" }
             ];
         }
+        private List<Play> GetPlays(List<Position> positions)
+        {
+            return 
+                [
+                new Play {Name="Inside Zone", Position1 = positions[2], Position2 = positions[3], Position3 = positions[0], Position6 = positions[4],Position9 = positions[1],}
+                ];
+        }
 
         private List<Position> GetPosition()
         {
@@ -113,7 +127,8 @@ namespace NFLRookieGuide.Context
             [
                 new Position { Name = "Quarterback"},
                 new Position { Name = "Running Back"},
-                new Position { Name = "Wide Reciever"},
+                new Position { Name = "Wide Reciever 1"},
+                new Position { Name = "Wide Reciever 2"},
                 new Position { Name = "Tight End"}
             ];
         }

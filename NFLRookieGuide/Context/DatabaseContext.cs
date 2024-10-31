@@ -11,6 +11,7 @@ namespace NFLRookieGuide.Context
         public DbSet<Player> Player { get; set; }
         public DbSet<Team> Teams{ get; set; }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<Play> Plays { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options, IWebHostEnvironment environment) : base(options)
         {
