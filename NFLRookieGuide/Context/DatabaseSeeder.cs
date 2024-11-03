@@ -117,11 +117,11 @@ namespace NFLRookieGuide.Context
         {
             return 
                 [
-                new Play {Name="Inside Zone", Diagram ="InsideZone.jpg", Position1 = positions[2], Position2 = positions[3], Position3 = positions[0], Position6 = positions[4],Position9 = positions[1]},
+                new Play {Name="Inside Zone", Diagram ="InsideZone.png", Position1 = positions[2], Position2 = positions[3], Position3 = positions[0], Position6 = positions[4],Position9 = positions[1]},
                 new Play {Name="Power O", Diagram ="PowerO.jpg", Position1 = positions[2], Position3 = positions[0], Position5 = positions[3],Position8 = positions[4],Position9= positions[1]},
                 new Play {Name="Play Action", Diagram ="PlayAction.jpg", Position2 = positions[2], Position5 = positions[4],Position7 = positions[3], Position8=positions[0], Position9=positions[1]},
                 new Play {Name="Four Vertical", Diagram ="FourVertical.jpg", Position1 = positions[2], Position9 = positions[0], Position5 = positions[4],Position8 = positions[1],Position7 = positions[3]},
-                new Play {Name="CurlFlat", Diagram ="CurlFlat.jpg", Position1 = positions[2], Position2 = positions[3], Position8 = positions[0], Position4 = positions[4],Position9 = positions[1]},
+                new Play {Name="CurlFlat", Diagram ="CurlFlat.png", Position1 = positions[2], Position2 = positions[3], Position8 = positions[0], Position4 = positions[4],Position9 = positions[1]},
                 new Play {Name="Mesh", Diagram ="Mesh.png", Position1 = positions[2], Position4 = positions[3], Position8 = positions[0], Position5 = positions[4],Position9 = positions[1]},
                 new Play {Name="Dagger", Diagram ="Dagger.jpg", Position1 = positions[2], Position2 = positions[3], Position3 = positions[0], Position5 = positions[4],Position8 = positions[1]},
                 new Play {Name="Levels", Diagram ="Levels.jpg", Position1 = positions[2], Position6 = positions[3], Position9 = positions[0], Position5 = positions[4],Position8 = positions[1]},

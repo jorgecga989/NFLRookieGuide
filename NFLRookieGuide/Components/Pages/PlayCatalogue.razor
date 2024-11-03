@@ -5,12 +5,34 @@
 @inject PlayProvider PlayProvider
 @inject NavigationManager NavigationManager
 
+<style>
+    .grid-container {
+        display: grid;
+        align-items: center; /* Center vertically */
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+        gap: 10px; /* Space between images */
+        width: 600px; /* Adjust width as needed */
+        margin: auto; /* Center the grid */
+        margin-left: 182px;
+    }
+
+    .grid-container img {
+         width: 300px; /* Image takes full width of its cell */
+         height: 250px
+     }
+</style>
+
 <h1 style="text-align: center">Plays</h1>
 
-@foreach(var play in plays)
-{
-    <img src="/plays/@play.Diagram"/>
-}
+<div class="grid-container">
+    @foreach(var play in plays)
+    {
+        <a @onclick="GoTo">
+            <img src="plays/@play.Diagram" alt="play" >
+        </a>
+    }
+</div>
+
 @code {
     private IEnumerable<Play> plays;
 
@@ -18,4 +40,9 @@
     {
         plays = await PlayProvider.GetAllPlaysAsync();
     } //gets teams from the database through the provider
+
+    public void GoTo()
+    {
+        NavigationManager.NavigateTo("/");
+    }
 }
