@@ -3,7 +3,6 @@
 @using NFLRookieGuide.Model
 @inject TeamProvider TeamProvider
 @inject NavigationManager NavigationManager
-@inject APIService APIService
 
 <PageTitle>Info - @chosenTeam?.Name</PageTitle>
 
@@ -125,7 +124,6 @@ else
         teams = await TeamProvider.GetAllTeamsAsync();
         chosenTeam = teams.SingleOrDefault(p => p.Id == Id);
 
-        results = await APIService.GetAsync();
     }
 
 
