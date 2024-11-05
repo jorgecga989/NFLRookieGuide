@@ -1,0 +1,47 @@
+﻿@page "/createPlay"
+@using NFLRookieGuide.Context
+@using NFLRookieGuide.Model
+@inject PositionProvider PositionProvider
+
+<h3 style="text-align:center">Create Play</h3>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container my-5">
+    <div class="row">
+        @foreach (var position in positions)
+        {
+            <div class="col-md-2 mb-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Box @position.Id</h5>
+                        <div class="dropdown mt-3">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton@i" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton@i">
+                                <a class="dropdown-item" href="#">Action 1</a>
+                                <a class="dropdown-item" href="#">Action 2</a>
+                                <a class="dropdown-item" href="#">Action 3</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Break after five boxes to start a new row *@
+            @if (position.Id % 5 == 0)
+            {
+                <div class="w-100"></div>
+            }
+        }
+    </div>
+</div>
+@code {
+    private IEnumerable<Position> positions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        positions = await PositionProvider.GetAllPositionsAsync();
+    } //gets teams from the database through the provider
+}

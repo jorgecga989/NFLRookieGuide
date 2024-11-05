@@ -17,7 +17,7 @@
 
 <div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
     <button type="button" class="big-button" style="background-color: #4B8B3B; color: white;" @onclick="GoToPlays">Browse Plays</button>
-    <button type="button" class="big-button" style="background-color: #FFD100; color: white;">Build Your Own</button>
+    <button type="button" class="big-button" style="background-color: #FFD100; color: white;" @onclick="GoToCreate">Build Your Own</button>
 </div>
 
 @code {
@@ -25,6 +25,11 @@
     private void GoToPlays()
     {
         NavigationManager.NavigateTo("/plays");
+    }
+
+    private void GoToCreate()
+    {
+        NavigationManager.NavigateTo("/createPlay");
     }
 
 }

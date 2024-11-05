@@ -22,12 +22,13 @@
      }
 </style>
 
-<h1 style="text-align: center">Plays</h1>
+<h1 style="text-align: center" >Choose a play</h1>
 
 <div class="grid-container">
     @foreach(var play in plays)
     {
-        <a @onclick="GoTo">
+        <a @onclick="GoToRoster">
+            <h4 style="text-align:center">@play.Name</h4>
             <img src="plays/@play.Diagram" alt="play" >
         </a>
     }
@@ -41,8 +42,8 @@
         plays = await PlayProvider.GetAllPlaysAsync();
     } //gets teams from the database through the provider
 
-    public void GoTo()
+    public void GoToRoster()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/roster");
     }
 }
