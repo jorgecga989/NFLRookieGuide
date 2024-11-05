@@ -3,6 +3,7 @@
     public class Player
     {
         public int Id { get; set; }
+        public string ApiId { get; set; }
         public string Name { get; set; }
         public int Stats { get; set; }
         public string Description { get; set; }
