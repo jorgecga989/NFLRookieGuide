@@ -16,7 +16,7 @@
                         <h5 class="card-title mb-3">Slot @i</h5>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                @selectedPositions.ContainsKey(i) ? selectedPositions[i] : "Select"
+                                @(selectedPositions.ContainsKey(i) ? selectedPositions[i].Name : "Select")
                             </button>
                             <ul class="dropdown-menu">
                                 @foreach (var position in availablePositions)
@@ -24,8 +24,8 @@
                                     <li>
                                         <button class="dropdown-item" type="button"
                                                 @onclick="() => TogglePosition(i, position)"
-                                                disabled="@IsPositionSelectedByOtherSlot(i, position)">
-                                            @position
+                                                disabled="@IsPositionSelectedByOtherSlot(position)">
+                                            @position.Name
                                         </button>
                                     </li>
                                 }
@@ -35,7 +35,6 @@
                 </div>
             </div>
 
-            @* Makes it stop at 5 boxes in a row *@
             @if (i % 5 == 0)
             {
                 <div class="w-100"></div>
@@ -43,42 +42,41 @@
         }
     </div>
 </div>
- 
-@code {
 
-   // List of available positions
-    private List<string> availablePositions = new List<string>
-    {
-        "Quarterback",
-        "Running Back",
-        "Wide Receiver 1",
-        "Wide Receiver 2",
-        "Tight End"
-    };
+@code {
+    private List<Position> availablePositions = new List<Position>();
 
     // Dictionary to store the selected position for each slot
-    private Dictionary<int, string> selectedPositions = new Dictionary<int, string>();
+    private Dictionary<int, Position> selectedPositions = new Dictionary<int, Position>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        availablePositions = await PositionProvider.GetAllPositionsAsync();
+    }
 
     // Toggle selection of a position: if selected, deselect; if not, select
-    private void TogglePosition(int slot, string position)
+    private void TogglePosition(int slot, Position position)
     {
-        if (selectedPositions.TryGetValue(slot, out var selected) && selected == position)
+        // Check if the position is already selected in the same slot
+        if (selectedPositions.TryGetValue(slot, out var selected) && selected.Id == position.Id)
         {
-            // Deselect the position if it's already selected in this slot
+            // Deselect the position in this slot if it's clicked again
             selectedPositions.Remove(slot);
         }
         else
         {
-            // Select the new position for this slot
+            // Assign the position to this slot
             selectedPositions[slot] = position;
         }
 
+        // Update the UI
         StateHasChanged();
     }
 
-    // Check if a position is selected by any slot other than the current one
-    private bool IsPositionSelectedByOtherSlot(int currentSlot, string position)
+    // Check if a position is selected by any other slot
+    private bool IsPositionSelectedByOtherSlot(Position position)
     {
-        return selectedPositions.Any(kvp => kvp.Value == position && kvp.Key != currentSlot);
+        // Disable if the position is selected by any slot, regardless of current slot
+        return selectedPositions.Values.Any(selected => selected.Id == position.Id);
     }
 }
