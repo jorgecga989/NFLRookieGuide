@@ -6,8 +6,6 @@
 
 <h3 style="text-align:center">Create Play</h3>
 
-
-
 <div class="container my-5">
     <div class="row justify-content-center">
         @for (int i = 1; i <= 10; i++)
@@ -18,39 +16,78 @@
                         <h5 class="card-title mb-3">Slot @i</h5>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select
+                                @(selectedPositions.ContainsKey(i) ? selectedPositions[i] : "Select")
                             </button>
                             <ul class="dropdown-menu">
-                                <li><button class="dropdown-item" type="button">Quarterback</button></li>
-                                <li><button class="dropdown-item" type="button">Running Back</button></li>
-                                <li><button class="dropdown-item" type="button">Wide Reciever 1</button></li>
-                                <li><button class="dropdown-item" type="button">Wide Reciever 2</button></li>
-                                <li><button class="dropdown-item" type="button">Tight End</button></li>
+                                @foreach (var position in availablePositions)
+                                {
+                                    <li>
+                                        <button class="dropdown-item" type="button" 
+                                                @onclick="() => TogglePosition(i, position)" 
+                                                disabled="@IsPositionSelected(position) && !IsPositionSelectedBySlot(i, position)">
+                                            @position
+                                        </button>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            @* Break after five boxes to start a new row *@
+            @* Makes it stop at 5 boxes in a row *@
             @if (i % 5 == 0)
             {
                 <div class="w-100"></div>
             }
         }
     </div>
-</div>
-        
+</div
  
 @code {
-    private IEnumerable<Position> positions;
-    private IEnumerable<Play> plays;
 
-    protected override async Task OnInitializedAsync()
+
+    // List of available positions
+    private List<string> availablePositions = new List<string>
     {
-        positions = await PositionProvider.GetAllPositionsAsync();
-        plays = await PlayProvider.GetAllPlaysAsync();
-    } //gets teams from the database through the provider
+        "Quarterback",
+        "Running Back",
+        "Wide Receiver 1",
+        "Wide Receiver 2",
+        "Tight End"
+    };
+
+    // Dictionary to store the selected position for each slot
+    private Dictionary<int, string> selectedPositions = new Dictionary<int, string>();
+
+    // Toggle selection of a position: if selected, deselect; if not, select
+    private void TogglePosition(int slot, string position)
+    {
+        if (selectedPositions.TryGetValue(slot, out var selected) && selected == position)
+        {
+            // Deselect the position if it's already selected in this slot
+            selectedPositions.Remove(slot);
+        }
+        else
+        {
+            // Select the new position for this slot
+            selectedPositions[slot] = position;
+        }
+
+        StateHasChanged();
+    }
+
+    // Check if a position is already selected in any slot
+    private bool IsPositionSelected(string position)
+    {
+        return selectedPositions.ContainsValue(position);
+    }
+
+    // Check if a position is selected specifically by this slot
+    private bool IsPositionSelectedBySlot(int slot, string position)
+    {
+        return selectedPositions.TryGetValue(slot, out var selected) && selected == position;
+    }
 
 
 }
