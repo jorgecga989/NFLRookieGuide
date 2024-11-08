@@ -23,8 +23,7 @@
                                 {
                                     <li>
                                         <button class="dropdown-item" type="button"
-                                                @onclick="() => TogglePosition(i, position)"
-                                                disabled="@IsPositionSelectedByOtherSlot(position)">
+                                                @onclick="() => TogglePosition(i, position)">
                                             @position.Name
                                         </button>
                                     </li>
@@ -57,26 +56,16 @@
     // Toggle selection of a position: if selected, deselect; if not, select
     private void TogglePosition(int slot, Position position)
     {
-        // Check if the position is already selected in the same slot
-        if (selectedPositions.TryGetValue(slot, out var selected) && selected.Id == position.Id)
-        {
-            // Deselect the position in this slot if it's clicked again
-            selectedPositions.Remove(slot);
-        }
-        else
-        {
             // Assign the position to this slot
-            selectedPositions[slot] = position;
-        }
-
+         selectedPositions[slot] = position;
         // Update the UI
         StateHasChanged();
     }
 
     // Check if a position is selected by any other slot
-    private bool IsPositionSelectedByOtherSlot(Position position)
-    {
-        // Disable if the position is selected by any slot, regardless of current slot
-        return selectedPositions.Values.Any(selected => selected.Id == position.Id);
-    }
+    // private bool IsPositionSelectedByOtherSlot(Position position)
+    // {
+    //     // Disable if the position is selected by any slot, regardless of current slot
+    //     return selectedPositions.Values.Any(selected => selected.Id == position.Id);
+    // }
 }
