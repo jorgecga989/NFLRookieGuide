@@ -28,7 +28,7 @@
     @foreach(var play in plays)
     {
         <a @onclick="() => GoToRoster(play)">
-            @* If you click anywhere inside the paddingit redirects *@
+            @* If you click anywhere inside the padding it redirects *@
             <h4 style="text-align:center">@play.Name</h4>
             <img src="plays/@play.Diagram" alt="play" >
         </a>
