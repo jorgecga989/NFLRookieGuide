@@ -14,11 +14,20 @@ namespace NFLRookieGuide.Context
 
         public async Task AddRosterPlayAsync(RosterPlay rosterPlay)
         {
+            if (_context.Entry(rosterPlay.Play).State == EntityState.Detached)
+            {
+                _context.Plays.Attach(rosterPlay.Play);
+            }
+
+            // Add the RosterPlay entity to the context
             _context.RosterPlays.Add(rosterPlay);
             await _context.SaveChangesAsync();
+
+            Console.WriteLine("RosterPlay saved successfully with ID: " + rosterPlay.Id);
+
         }
 
-        public async Task<RosterPlay> GetRosterPlayByIdAsync(int id)
+        public async Task<RosterPlay?> GetRosterPlayByIdAsync(int id)
         {
             return await _context.RosterPlays
                 .Include(rp => rp.Play)  // Include the Play property for eager loading
