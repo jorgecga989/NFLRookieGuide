@@ -11,8 +11,8 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241105200141_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241112091107_AddRosterPlayTable")]
+    partial class AddRosterPlayTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -316,7 +316,7 @@ namespace NFLRookieGuide.Migrations
 
                     b.HasIndex("RosterId");
 
-                    b.ToTable("RosterPlay");
+                    b.ToTable("RosterPlays");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.RosterPlayer", b =>

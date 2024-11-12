@@ -36,6 +36,7 @@ builder.Services.AddScoped<PlayerProvider>();
 builder.Services.AddScoped<TeamProvider>();
 builder.Services.AddScoped<PlayProvider>();
 builder.Services.AddScoped<PositionProvider>();
+builder.Services.AddScoped<RosterPlayProvider>();
 
 
 var app = builder.Build();

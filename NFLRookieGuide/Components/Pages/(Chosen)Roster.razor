@@ -1,8 +1,9 @@
-﻿@page "/roster/{id:int}"
+﻿@page "/rosterPlay/{id:int}"
 @using Microsoft.EntityFrameworkCore
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
 @inject PlayProvider PlayProvider
+@inject RosterPlayProvider RosterPlayProvider
 @inject NavigationManager NavigationManager
 
 <h1 style="text-align:center">Pick your players</h1>
@@ -44,10 +45,19 @@
 
     private Play? chosenPlay;
 
-
     protected override async Task OnInitializedAsync()
     {
         plays = await PlayProvider.GetAllPlaysAsync();
         chosenPlay = plays.SingleOrDefault(p => p.Id == Id);
     } //gets plays from the database 
+
+    // private async Task CreateRosterPlay()
+    // {
+    //     var rosterPlay = new RosterPlay
+    //         {
+    //             Play = play  // Assign the current Play object to the RosterPlay
+    //         };
+
+    //     await RosterPlayProvider.AddRosterPlayAsync(rosterPlay);
+    // }
 }

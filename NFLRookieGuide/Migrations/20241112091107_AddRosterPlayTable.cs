@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NFLRookieGuide.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddRosterPlayTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -317,7 +317,7 @@ namespace NFLRookieGuide.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RosterPlay",
+                name: "RosterPlays",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -327,15 +327,15 @@ namespace NFLRookieGuide.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RosterPlay", x => x.Id);
+                    table.PrimaryKey("PK_RosterPlays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RosterPlay_Plays_PlayId",
+                        name: "FK_RosterPlays_Plays_PlayId",
                         column: x => x.PlayId,
                         principalTable: "Plays",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RosterPlay_Rosters_RosterId",
+                        name: "FK_RosterPlays_Rosters_RosterId",
                         column: x => x.RosterId,
                         principalTable: "Rosters",
                         principalColumn: "Id",
@@ -466,16 +466,6 @@ namespace NFLRookieGuide.Migrations
                 column: "Position9Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RosterPlay_PlayId",
-                table: "RosterPlay",
-                column: "PlayId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RosterPlay_RosterId",
-                table: "RosterPlay",
-                column: "RosterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RosterPlayer_PlayerId",
                 table: "RosterPlayer",
                 column: "PlayerId");
@@ -483,6 +473,16 @@ namespace NFLRookieGuide.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_RosterPlayer_RosterId",
                 table: "RosterPlayer",
+                column: "RosterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RosterPlays_PlayId",
+                table: "RosterPlays",
+                column: "PlayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RosterPlays_RosterId",
+                table: "RosterPlays",
                 column: "RosterId");
 
             migrationBuilder.CreateIndex(
@@ -510,28 +510,28 @@ namespace NFLRookieGuide.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "RosterPlay");
+                name: "RosterPlayer");
 
             migrationBuilder.DropTable(
-                name: "RosterPlayer");
+                name: "RosterPlays");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Plays");
+                name: "Player");
 
             migrationBuilder.DropTable(
-                name: "Player");
+                name: "Plays");
 
             migrationBuilder.DropTable(
                 name: "Rosters");
 
             migrationBuilder.DropTable(
-                name: "Positions");
+                name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Positions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

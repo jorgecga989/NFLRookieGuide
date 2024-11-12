@@ -313,7 +313,7 @@ namespace NFLRookieGuide.Migrations
 
                     b.HasIndex("RosterId");
 
-                    b.ToTable("RosterPlay");
+                    b.ToTable("RosterPlays");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.RosterPlayer", b =>
