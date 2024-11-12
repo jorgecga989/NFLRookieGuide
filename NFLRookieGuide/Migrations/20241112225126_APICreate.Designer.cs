@@ -11,8 +11,8 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241112091107_AddRosterPlayTable")]
-    partial class AddRosterPlayTable
+    [Migration("20241112225126_APICreate")]
+    partial class APICreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

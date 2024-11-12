@@ -4,6 +4,7 @@
 @inject APIService APIService
 @inject TeamProvider TeamProvider
 @inject NavigationManager NavigationManager
+@inject IHttpClientFactory _clientFactory
 
 
 <PageTitle>Info - @chosenTeam?.Name</PageTitle>
@@ -109,9 +110,37 @@ else
         </div>
     </div>
 }
-@if (@results != null)
+@if (string.IsNullOrWhiteSpace(errorString) == false)
 {
-    @results.name;
+    <h2> @errorString</h2>
+}
+else if (teamApi is null)
+{
+    <h4> Loading...</h4>
+}
+else
+{
+    <table class="table table-stripped">
+        <thead class="thread-dark">
+            <tr>
+                <th>Name</th>
+                <th>Jersey</th>
+                <th>Weight</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var player in teamApi.players.OrderBy(p => p.position))
+            {
+                <tr>
+                    <td>@player.name</td>
+                    <td>@player.jersey</td>
+                    <td>@player.weight</td>
+                    <td>@player.position</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
 
@@ -123,14 +152,30 @@ else
 
     private IEnumerable<Team> teams;
 
-    private PlayerAPI? results;
+    TeamApi teamApi;
+    string errorString;
 
     protected override async Task OnInitializedAsync()
     {
         teams = await TeamProvider.GetAllTeamsAsync();
         chosenTeam = teams.SingleOrDefault(p => p.Id == Id);
 
-        results = await APIService.GetAsync<PlayerAPI>();
+        var request = new HttpRequestMessage(HttpMethod.Get, 
+            "https://api.sportradar.com/nfl/official/trial/v7/en/teams/0d855753-ea21-4953-89f9-0e20aff9eb73/full_roster.json?api_key=r3wGOsDopCEioyNnxFdeMEM0D0hZn4fOJeyg5VLZ");
+        var client = _clientFactory.CreateClient();
+
+        HttpResponseMessage response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            teamApi = await response.Content.ReadFromJsonAsync<TeamApi>();
+
+            errorString = null;
+        }
+        else
+        {
+            errorString = "Error loading data";
+        }
     }
 
 
