@@ -17,7 +17,13 @@
         {
             string[] DisplayColours = Colours.Split(" , ");//takes the colours property and takes the first word, the colour I need
             return DisplayColours[0].ToLower();
-            
+        }
+
+        public string ActualTeamName()
+        {
+            string[] actualTeamName = Name.Split(" ");//takes the colours property and takes the first word, the colour I need
+            return actualTeamName[^1];
+
         }
 
         //public string StadiumName()

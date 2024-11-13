@@ -1,6 +1,6 @@
 ﻿namespace NFLRookieGuide.Model
 {
-    public class TeamApi
+    public class TeamAPI
     {
         public string id { get; set; }
         public string name { get; set; }
