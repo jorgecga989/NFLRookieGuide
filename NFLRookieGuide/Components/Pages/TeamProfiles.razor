@@ -108,6 +108,9 @@ else
         </div>
     </div>
 }
+
+<h2 style="text-align:center;">@chosenTeam.Name 2024 Roster</h2>
+
 @if (string.IsNullOrWhiteSpace(errorString) == false)
 {
     <h2> @errorString</h2>
@@ -151,16 +154,6 @@ else
         </tbody>
     </table>
 }
-
-@if (teamApi is null)
-{
-    <h4> Loading...</h4>
-}
-else
-{
-    @teamsApi.teams
-}
-
 @code {
     [Parameter]
     public int Id { get; set; }
@@ -230,9 +223,4 @@ else
         }
 
     }
-
-
-
-
-
 }
