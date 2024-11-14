@@ -5,6 +5,7 @@
         public string id { get; set; }
         public string name { get; set; }
         public PlayerAPI[] players { get; set; }
+        //Api provides a player list by team
     }
     public class PlayerAPI
     {
