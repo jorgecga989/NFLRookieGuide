@@ -3,9 +3,10 @@
 @using NFLRookieGuide.Model
 @inject PlayProvider PlayProvider
 @inject PositionProvider PositionProvider
+@inject NavigationManager NavigationManager
 
 <h3 style="text-align:center">Create Play</h3>
-
+@* 
 <div class="container my-5">
     <div class="row justify-content-center">
         @for (int i = 1; i <= 10; i++)
@@ -42,31 +43,37 @@
     </div>
     <button class="btn btn-secondary" type="button" style="float: right;">Save</button>
 </div>
+ *@
 
+@*  <EditForm EditContext="editContext" OnValidSubmit="SavePlay"></EditForm>
+ *@
 @code {
-    private List<Position> availablePositions = new List<Position>();
+    private EditContext editContext;
 
-    // Dictionary to store the selected position for each slot
-    private Dictionary<int, Position> selectedPositions = new Dictionary<int, Position>();
+    private IEnumerable<Position> positions;
 
     protected override async Task OnInitializedAsync()
     {
-        availablePositions = await PositionProvider.GetAllPositionsAsync();
+        positions = await PositionProvider.GetAllPositionsAsync();
     }
 
-    // Toggle selection of a position: if selected, deselect; if not, select
-    private void TogglePosition(int slot, Position position)
-    {
-            // Assign the position to this slot
-         selectedPositions[slot] = position;
-        // Update the UI
-        StateHasChanged();
-    }
-
-    // Check if a position is selected by any other slot
-    // private bool IsPositionSelectedByOtherSlot(Position position)
+    // private async Task SavePlay()
     // {
-    //     // Disable if the position is selected by any slot, regardless of current slot
-    //     return selectedPositions.Values.Any(selected => selected.Id == position.Id);
+    //     NavigationManager.NavigateTo("/roster_create");
     // }
+
+
+    public sealed class Slots
+    {
+        public int? Slot1 { get; set; }
+        public int? Slot2 { get; set; }
+        public int? Slot3 { get; set; }
+        public int? Slot4 { get; set; }
+        public int? Slot5 { get; set; }
+        public int? Slot6 { get; set; }
+        public int? Slot7 { get; set; }
+        public int? Slot8 { get; set; }
+        public int? Slot9 { get; set; }
+        public int? Slot10 { get; set; }
+    }
 }

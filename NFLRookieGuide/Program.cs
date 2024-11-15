@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using NFLRookieGuide.Components.Account;
 using NFLRookieGuide.Context;
 using NFLRookieGuide.Model;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,28 @@ builder.Services.AddIdentityCore<User>()
     .AddSignInManager();
 
 builder.Services.AddHttpClient<HttpClient>();
+builder.Services.AddHttpClient<HttpClient>("Proxy")
+    .ConfigurePrimaryHttpMessageHandler(options =>
+    {
+        return new HttpClientHandler
+        {
+            UseProxy = true,
+            Proxy = new WebProxy
+            {
+                Address = new Uri("http://smoothwall:8080/"),
+                BypassProxyOnLocal = false,
+                UseDefaultCredentials = true,
+                Credentials = new NetworkCredential
+                {
+                    UserName = $"learning\\garcj143.212",
+                    Password = $"1122334455fL"
+                }
+            }
+
+        };
+    });
+
+
 builder.Services.AddScoped<DatabaseSeeder>();
 builder.Services.AddScoped<PlayerProvider>();
 builder.Services.AddScoped<TeamProvider>();
