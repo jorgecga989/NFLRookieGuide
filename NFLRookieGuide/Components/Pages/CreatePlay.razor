@@ -44,11 +44,65 @@
     <button class="btn btn-secondary" type="button" style="float: right;">Save</button>
 </div>
  *@
+@*  Rehister form below
+ *@
+@* <div class="card">
+    <div class="card-body bg-light">
+        <h4 class="card-title">Register</h4>
 
-@*  <EditForm EditContext="editContext" OnValidSubmit="SavePlay"></EditForm>
+        <EditForm OnValidSubmit="SavePlay" Model="Slots" FormName="slotForm">
+            <DataAnnotationsValidator />
+
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label for="slot1" class="form-label">Slot 1</label>
+                    <InputText class="form-control" placeholder="Slot1" @bind-Value="slots.Slot1" />
+                    <div class="small">
+                        <ValidationMessage For="@(() => slots!.Slot1)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="password" class="form-label">Password</label>
+                    <InputText type="password" class="form-control" placeholder="Password" @bind-Value="slots.Slot2" />
+                    <div class="small">
+                        <ValidationMessage For="@(() => Model!.Password)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Confirm Password</label>
+                    <InputText type="password" class="form-control" placeholder="Confirm Password" @bind-Value="slots.Slot3" />
+                    <div class="small">
+                        <ValidationMessage For="@(() => Model!.ConfirmPassword)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="name" class="form-label">First Name</label>
+                    <InputText class="form-control" placeholder="FirstName" @bind-Value="slots.Slot4" />
+                    <div class="small">
+                        <ValidationMessage For="@(() => Model!.FirstName)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Last Name</label>
+                    <InputText class="form-control" placeholder="LastName" @bind-Value="slots.Slot5" />
+                    <div class="small">
+                        <ValidationMessage For="@(() => Model!.LastName)" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
  *@
 @code {
+
     private EditContext editContext;
+
+    [SupplyParameterFromForm]
+    private Slots slots { get; set; } = new();
 
     private IEnumerable<Position> positions;
 
@@ -57,10 +111,10 @@
         positions = await PositionProvider.GetAllPositionsAsync();
     }
 
-    // private async Task SavePlay()
-    // {
-    //     NavigationManager.NavigateTo("/roster_create");
-    // }
+    private async Task SavePlay()
+    {
+       // NavigationManager.NavigateTo("/roster_create");
+    }
 
 
     public sealed class Slots
