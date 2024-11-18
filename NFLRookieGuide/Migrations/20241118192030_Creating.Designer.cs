@@ -11,8 +11,8 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241118094216_slotRosterPlay")]
-    partial class slotRosterPlay
+    [Migration("20241118192030_Creating")]
+    partial class Creating
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -310,35 +310,35 @@ namespace NFLRookieGuide.Migrations
                     b.Property<int>("RosterId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Slot1")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot1")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot10")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot10")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot2")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot2")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot3")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot3")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot4")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot4")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot5")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot5")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot6")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot6")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot7")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot7")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot8")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot8")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("Slot9")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Slot9")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

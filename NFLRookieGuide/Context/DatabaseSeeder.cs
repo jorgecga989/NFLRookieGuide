@@ -72,7 +72,7 @@ namespace NFLRookieGuide.Context
             //var p18 = new Player { Name = "Justin Jefferson", Stats = 1600, Description = "Young star receiver known for his big-play ability.", Photo = "justin_jefferson.png", Age = 25, Team = teams[20], Position = position[2] };
             //var p19 = new Player { Name = "A.J. Brown", Stats = 1300, Description = "Strong wide receiver with good catching ability.", Photo = "aj_brown.png", Age = 26, Team = teams[25], Position = position[2] };
 
-            return new List<Player>() { p1, /*p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19*/ };
+            return new List<Player>() { p1/*, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19*/ };
         }
 
         private List<Team> GetTeams()

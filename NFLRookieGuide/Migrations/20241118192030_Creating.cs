@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NFLRookieGuide.Migrations
 {
     /// <inheritdoc />
-    public partial class slotRosterPlay : Migration
+    public partial class Creating : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -322,16 +322,16 @@ namespace NFLRookieGuide.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Slot1 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot2 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot3 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot4 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot5 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot6 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot7 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot8 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot9 = table.Column<int>(type: "INTEGER", nullable: true),
-                    Slot10 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot1 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot2 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot3 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot4 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot5 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot6 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot7 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot8 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot9 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot10 = table.Column<string>(type: "TEXT", nullable: true),
                     RosterId = table.Column<int>(type: "INTEGER", nullable: false),
                     PlayId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
