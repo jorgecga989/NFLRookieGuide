@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NFLRookieGuide.Migrations
 {
     /// <inheritdoc />
-    public partial class APICreate : Migration
+    public partial class slotRosterPlay : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -322,6 +322,16 @@ namespace NFLRookieGuide.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Slot1 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot2 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot3 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot4 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot5 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot6 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot7 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot8 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot9 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Slot10 = table.Column<int>(type: "INTEGER", nullable: true),
                     RosterId = table.Column<int>(type: "INTEGER", nullable: false),
                     PlayId = table.Column<int>(type: "INTEGER", nullable: false)
                 },

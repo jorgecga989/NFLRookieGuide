@@ -307,6 +307,36 @@ namespace NFLRookieGuide.Migrations
                     b.Property<int>("RosterId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Slot1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot10")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot2")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot3")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot4")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot5")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot6")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot7")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot8")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot9")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PlayId");

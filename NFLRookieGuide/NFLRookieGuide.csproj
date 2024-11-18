@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\database\" />
     <Folder Include="wwwroot\stadiums\" />
   </ItemGroup>
 

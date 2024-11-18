@@ -11,8 +11,8 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241112225126_APICreate")]
-    partial class APICreate
+    [Migration("20241118094216_slotRosterPlay")]
+    partial class slotRosterPlay
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -308,6 +308,36 @@ namespace NFLRookieGuide.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("RosterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot10")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot2")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot3")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot4")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot5")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot6")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot7")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot8")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Slot9")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
