@@ -11,8 +11,8 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241118192030_Creating")]
-    partial class Creating
+    [Migration("20241119152822_RosterPlay")]
+    partial class RosterPlay
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -304,12 +304,6 @@ namespace NFLRookieGuide.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("PlayId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RosterId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Slot1")
                         .HasColumnType("TEXT");
 
@@ -341,10 +335,6 @@ namespace NFLRookieGuide.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PlayId");
-
-                    b.HasIndex("RosterId");
 
                     b.ToTable("RosterPlays");
                 });
@@ -620,25 +610,6 @@ namespace NFLRookieGuide.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("NFLRookieGuide.Model.RosterPlay", b =>
-                {
-                    b.HasOne("NFLRookieGuide.Model.Play", "Play")
-                        .WithMany("RosterPlays")
-                        .HasForeignKey("PlayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NFLRookieGuide.Model.Roster", "Roster")
-                        .WithMany("RosterPlays")
-                        .HasForeignKey("RosterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Play");
-
-                    b.Navigation("Roster");
-                });
-
             modelBuilder.Entity("NFLRookieGuide.Model.RosterPlayer", b =>
                 {
                     b.HasOne("NFLRookieGuide.Model.Player", "Player")
@@ -658,11 +629,6 @@ namespace NFLRookieGuide.Migrations
                     b.Navigation("Roster");
                 });
 
-            modelBuilder.Entity("NFLRookieGuide.Model.Play", b =>
-                {
-                    b.Navigation("RosterPlays");
-                });
-
             modelBuilder.Entity("NFLRookieGuide.Model.Player", b =>
                 {
                     b.Navigation("RosterPlayers");
@@ -676,8 +642,6 @@ namespace NFLRookieGuide.Migrations
             modelBuilder.Entity("NFLRookieGuide.Model.Roster", b =>
                 {
                     b.Navigation("RosterPlayers");
-
-                    b.Navigation("RosterPlays");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.Team", b =>

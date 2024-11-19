@@ -37,12 +37,7 @@
     <button class="btn btn-secodary" type="button">Save</button>
 </div>
 
-<ul>
-    @foreach (var rosterPlay in savedRosterPlays)
-    {
-        <li>@rosterPlay.Id - @rosterPlay.Play.Name</li>
-    }
-</ul>
+
 
 
 @code {
@@ -61,17 +56,6 @@
     {
         plays = await PlayProvider.GetAllPlaysAsync();
         chosenPlay = plays.SingleOrDefault(p => p.Id == Id);
-        savedRosterPlays = (await RosterPlayProvider.GetAllRosterPlaysAsync()).ToList();
     } //gets plays from the database 
 
-    private async Task CreateRosterPlay()
-    {
-        var rosterPlay = new RosterPlay
-            {
-                Play = play  // Assign the current Play object to the RosterPlay
-            };
-
-        await RosterPlayProvider.AddRosterPlayAsync(rosterPlay);
-        savedRosterPlays = (await RosterPlayProvider.GetAllRosterPlaysAsync()).ToList();
-    }
 }

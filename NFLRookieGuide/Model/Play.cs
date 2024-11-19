@@ -15,7 +15,6 @@
         public Position? Position8 { get; set; }
         public Position? Position9 { get; set; }
         public Position? Position10 { get; set; }
-        public List<RosterPlay> RosterPlays { get; set;}//list of the rosters using this play
 
     }
 }

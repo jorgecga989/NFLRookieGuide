@@ -19,13 +19,6 @@ namespace NFLRookieGuide.Context
         }
 
 
-        public async Task<IEnumerable<RosterPlay>> GetAllRosterPlaysAsync()
-        {
-            return await _context.RosterPlays
-                .Include(rp => rp.Play)  // Include the Play property for eager loading
-                .ToListAsync();
-        }
-
         public async Task UpdateRosterPlayAsync(RosterPlay rosterPlay)
         {
             _context.RosterPlays.Update(rosterPlay);

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NFLRookieGuide.Migrations
 {
     /// <inheritdoc />
-    public partial class Creating : Migration
+    public partial class RosterPlay : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,6 +63,28 @@ namespace NFLRookieGuide.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Positions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RosterPlays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Slot1 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot2 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot3 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot4 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot5 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot6 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot7 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot8 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot9 = table.Column<string>(type: "TEXT", nullable: true),
+                    Slot10 = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RosterPlays", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -317,42 +339,6 @@ namespace NFLRookieGuide.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RosterPlays",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Slot1 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot2 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot3 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot4 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot5 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot6 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot7 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot8 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot9 = table.Column<string>(type: "TEXT", nullable: true),
-                    Slot10 = table.Column<string>(type: "TEXT", nullable: true),
-                    RosterId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PlayId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RosterPlays", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RosterPlays_Plays_PlayId",
-                        column: x => x.PlayId,
-                        principalTable: "Plays",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RosterPlays_Rosters_RosterId",
-                        column: x => x.RosterId,
-                        principalTable: "Rosters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RosterPlayer",
                 columns: table => new
                 {
@@ -486,16 +472,6 @@ namespace NFLRookieGuide.Migrations
                 column: "RosterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RosterPlays_PlayId",
-                table: "RosterPlays",
-                column: "PlayId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RosterPlays_RosterId",
-                table: "RosterPlays",
-                column: "RosterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Rosters_UserId",
                 table: "Rosters",
                 column: "UserId");
@@ -520,6 +496,9 @@ namespace NFLRookieGuide.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Plays");
+
+            migrationBuilder.DropTable(
                 name: "RosterPlayer");
 
             migrationBuilder.DropTable(
@@ -532,16 +511,13 @@ namespace NFLRookieGuide.Migrations
                 name: "Player");
 
             migrationBuilder.DropTable(
-                name: "Plays");
-
-            migrationBuilder.DropTable(
                 name: "Rosters");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Positions");
 
             migrationBuilder.DropTable(
-                name: "Positions");
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

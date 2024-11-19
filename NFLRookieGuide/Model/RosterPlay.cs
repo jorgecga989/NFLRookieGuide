@@ -15,7 +15,5 @@
         public string? Slot9 { get; set; }
         //10 slots available for users
         public string? Slot10 { get; set; }
-        public Roster Roster { get; set; } //identifies which roster this play belongs to
-        public Play Play { get; set; } //identifies the details of the actual play
     }
 }
