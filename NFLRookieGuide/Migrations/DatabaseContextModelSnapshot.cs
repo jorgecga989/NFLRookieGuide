@@ -301,34 +301,8 @@ namespace NFLRookieGuide.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Slot1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot10")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot2")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot3")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot4")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot5")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot6")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot7")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot8")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slot9")
+                    b.Property<string>("SelectedSlots")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

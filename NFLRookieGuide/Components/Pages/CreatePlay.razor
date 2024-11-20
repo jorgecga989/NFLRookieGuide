@@ -46,47 +46,19 @@
  *@
  <div class="row">
      <div class="col-md-4">
-         <EditForm Model="@Slot" OnValidSubmit="@Save">
-             <div class="md-3">
-                 <label for="slot1" class="form-label">Slot 1</label>
-                 <InputText id="slot1" @bind-Value="Slot.Slot1"class="form-control" />
-             </div>
-            <div class="md-3">
-                <label for="slot2" class="form-label">Slot 2</label>
-                <InputText id="slot2" @bind-Value="Slot.Slot2" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot3" class="form-label">Slot 3</label>
-                <InputText id="slot3" @bind-Value="Slot.Slot3" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot4" class="form-label">Slot 4</label>
-                <InputText id="slot4" @bind-Value="Slot.Slot4" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot5" class="form-label">Slot 5</label>
-                <InputText id="slot5" @bind-Value="Slot.Slot5" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot6" class="form-label">Slot 6</label>
-                <InputText id="slot6" @bind-Value="Slot.Slot6" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot7" class="form-label">Slot 7</label>
-                <InputText id="slot7" @bind-Value="Slot.Slot7" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot8" class="form-label">Slot 8</label>
-                <InputText id="slot8" @bind-Value="Slot.Slot8" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot9" class="form-label">Slot 9</label>
-                <InputText id="slot9" @bind-Value="Slot.Slot9" class="form-control" />
-            </div>
-            <div class="md-3">
-                <label for="slot10" class="form-label">Slot 10</label>
-                <InputText id="slot10" @bind-Value="Slot.Slot10" class="form-control" />
-            </div>
+         <EditForm OnValidSubmit="@Save">
+             @for(var i = 0; i < 10; i++)
+            {
+                <div class="md-3">
+                    <label for= "slot@i" class="form-label">Slot @(i+1)</label>
+                    <InputSelect id="slot@i" @bind-Value="Slot.SelectedSlots[i]" @onchange="HandleChange" class="form-control">
+                        <option value="quarterback">Quarterback</option>
+                        <option value="running back">Running Back</option>
+                        <option value="tight end">Tight End</option>
+                        <option value="wide reciever">Wide Reciever</option>
+                    </InputSelect>
+                </div>
+            }
             <button type="submit" class="btn btn-red">Save</button>
          </EditForm>
      </div>
@@ -98,26 +70,25 @@
     public RosterPlay? RosterPlay { get; set; }
 
     private Slots Slot { get; set; }
-    
+
     protected override void OnInitialized()
     {
         Slot = RosterPlay != null ? new Slots(RosterPlay) : new Slots();
+    }
+
+    public void HandleChange(ChangeEventArgs e)
+    {
+        Console.WriteLine(e.Value);
     }
 
     public async Task Save()
     {
         var rosterPlay = RosterPlay ?? new RosterPlay();
 
-        rosterPlay.Slot1 = Slot.Slot1;
-        rosterPlay.Slot2 = Slot.Slot2;
-        rosterPlay.Slot3 = Slot.Slot3;
-        rosterPlay.Slot4 = Slot.Slot4;
-        rosterPlay.Slot5 = Slot.Slot5;
-        rosterPlay.Slot6 = Slot.Slot6;
-        rosterPlay.Slot7 = Slot.Slot7;
-        rosterPlay.Slot8 = Slot.Slot8;
-        rosterPlay.Slot9 = Slot.Slot9;
-        rosterPlay.Slot10 = Slot.Slot10;
+        rosterPlay.SelectedSlots = Slot.SelectedSlots;
+        Console.WriteLine("SAVING");
+        rosterPlay.SelectedSlots[1] = "Abc";
+        Console.WriteLine(rosterPlay.SelectedSlots[1]);
 
         if(rosterPlay.Id == 0)
         {
@@ -133,33 +104,21 @@
 
     private sealed class Slots
     {
-        public string? Slot1 { get; set; }
-        public string? Slot2 { get; set; }
-        public string? Slot3 { get; set; }
-        public string? Slot4 { get; set; }
-        public string? Slot5 { get; set; }
-        public string? Slot6 { get; set; }
-        public string? Slot7 { get; set; }
-        public string? Slot8 { get; set; }
-        public string? Slot9 { get; set; }
-        public string? Slot10 { get; set; }
+        public List<string?> SelectedSlots { get; set; }
+
 
         public Slots()
         {
+            SelectedSlots = new List<string?>();
+            for(var x = 1; x < 11; x++)
+            {
+                SelectedSlots.Add(null);
+            }
         }
 
         public Slots(RosterPlay rosterPlay)
         {
-            Slot1 = rosterPlay.Slot1;
-            Slot2 = rosterPlay.Slot2;
-            Slot3 = rosterPlay.Slot3;
-            Slot4 = rosterPlay.Slot4;
-            Slot5 = rosterPlay.Slot5;
-            Slot6 = rosterPlay.Slot6;
-            Slot7 = rosterPlay.Slot7;
-            Slot8 = rosterPlay.Slot8;
-            Slot9 = rosterPlay.Slot9;
-            Slot10 = rosterPlay.Slot10;
+            SelectedSlots = rosterPlay.SelectedSlots;
 
         }
     }

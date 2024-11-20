@@ -16,6 +16,8 @@ namespace NFLRookieGuide.Context
         {
             _context.RosterPlays.Add(rosterPlay);
             await _context.SaveChangesAsync();
+            Console.WriteLine(rosterPlay.SelectedSlots[0]);
+            Console.WriteLine("Adding");
         }
 
 
@@ -23,6 +25,7 @@ namespace NFLRookieGuide.Context
         {
             _context.RosterPlays.Update(rosterPlay);
             await _context.SaveChangesAsync();
+            Console.WriteLine("Updating");
         }
 
         public async Task DeleteRosterPlayAsync(int id)
