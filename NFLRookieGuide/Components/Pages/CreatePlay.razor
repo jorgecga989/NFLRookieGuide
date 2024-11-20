@@ -5,95 +5,101 @@
 @inject NavigationManager NavigationManager
 @inject RosterPlayProvider RosterPlayProvider
 
-<h3 style="text-align:center">Create Play</h3>
-@* 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        @for (int i = 1; i <= 10; i++)
+<h2 style="text-align:center;" class="mb-5">Create Your Play</h2>
+
+<EditForm Model="@TheSlots" OnValidSubmit="Save">
+    <div class="row mb-3 justify-content-center">
+        @for (int i = 0; i < 5; i++) // First 5 slots
         {
-            <div class="col-md-2 mb-4 d-flex justify-content-center">
-                <div class="card text-center" style="width: 300px; height: 300px; border: 2px solid #333;">
-                    <div class="card-body d-flex flex-column justify-content-center">
-                        <h5 class="card-title mb-3">Slot @i</h5>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                @(selectedPositions.ContainsKey(i) ? selectedPositions[i].Name : "Select")
-                            </button>
-                            <ul class="dropdown-menu">
-                                @foreach (var position in availablePositions)
-                                {
-                                    <li>
-                                        <button class="dropdown-item" type="button"
-                                                @onclick="() => TogglePosition(i, position)">
-                                            @position.Name
-                                        </button>
-                                    </li>
-                                }
-                            </ul>
+            int index = i; // Must be initialized in the loop to be used in @bind-Value
+            <div class="col-md-2">
+                <div class="card" style="border: 2px solid#000;">
+                    <div class="card-body">
+                        <h5 class="card-title">Slot @(i + 1)</h5>
+                        <div class="form-group">
+                            <label for="@($"slot{i}")" class="form-label">Position:</label>
+                            <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                <option value=""></option>
+                                <option value="quarterback">Quarterback</option>
+                                <option value="running back">Running Back</option>
+                                <option value="tight end">Tight End</option>
+                                <option value="wide receiver">Wide Receiver</option>
+                            </InputSelect>
                         </div>
                     </div>
                 </div>
             </div>
-
-            @if (i % 5 == 0)
-            {
-                <div class="w-100"></div>
-            }
         }
     </div>
-    <button class="btn btn-secondary" type="button" style="float: right;">Save</button>
-</div>
- *@
- <div class="row">
-     <div class="col-md-4">
-         <EditForm OnValidSubmit="@Save">
-             @for(var i = 0; i < 10; i++)
-            {
-                <div class="md-3">
-                    <label for= "slot@i" class="form-label">Slot @(i+1)</label>
-                    <InputSelect id="slot@i" @bind-Value="Slot.SelectedSlots[i]" @onchange="HandleChange" class="form-control">
-                        <option value="quarterback">Quarterback</option>
-                        <option value="running back">Running Back</option>
-                        <option value="tight end">Tight End</option>
-                        <option value="wide reciever">Wide Reciever</option>
-                    </InputSelect>
+    <div class="row justify-content-center mt-5">
+        @for (int i = 5; i < 10; i++) 
+        {
+            int index = i; // Must be initialized in the loop to be used in @bind-Value
+            <div class="col-md-2">
+                <div class="card" style="border: 2px solid#000;">
+                    <div class="card-body">
+                        <h5 class="card-title">Slot @(i + 1)</h5>
+                        <div class="form-group">
+                            <label for="@($"slot{i}")" class="form-label">Position:</label>
+                            <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                <option value=""></option>
+                                <option value="quarterback">Quarterback</option>
+                                <option value="running back">Running Back</option>
+                                <option value="tight end">Tight End</option>
+                                <option value="wide receiver">Wide Receiver</option>
+                            </InputSelect>
+                        </div>
+                    </div>
                 </div>
-            }
-            <button type="submit" class="btn btn-red">Save</button>
-         </EditForm>
-     </div>
- </div>
- 
+            </div>
+        }
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-auto">
+            <button class="btn btn-primary btn-lg" style="margin-right: 50px;" @onclick="GoBack">Go Back</button>
+            <button type="submit" class="btn btn-danger btn-lg" @onclick="GoToRoster">Save</button>
+        </div>
+    </div>
+</EditForm>
 
 @code {
     [Parameter]
     public RosterPlay? RosterPlay { get; set; }
 
-    private Slots Slot { get; set; }
+    private Slots? TheSlots { get; set; }
 
     protected override void OnInitialized()
     {
-        Slot = RosterPlay != null ? new Slots(RosterPlay) : new Slots();
+        TheSlots = RosterPlay != null ? new Slots(RosterPlay) : new Slots();
     }
 
-    public void HandleChange(ChangeEventArgs e)
+    public void GoBack()
     {
-        Console.WriteLine(e.Value);
+        NavigationManager.NavigateTo("/selection");
+    }
+
+    public void GoToRoster()
+    {
+        NavigationManager.NavigateTo("roster");
     }
 
     public async Task Save()
     {
-        var rosterPlay = RosterPlay ?? new RosterPlay();
+        //Creating a new roster play component to add the selections
+        RosterPlay rosterPlay = RosterPlay ?? new RosterPlay();
 
-        rosterPlay.SelectedSlots = Slot.SelectedSlots;
-        Console.WriteLine("SAVING");
-        rosterPlay.SelectedSlots[1] = "Abc";
-        Console.WriteLine(rosterPlay.SelectedSlots[1]);
+        rosterPlay.SelectedSlots = TheSlots!.SelectedSlots!;
+
+        @* testing *@
+        @* for (int i = 0; i < TheSlots.SelectedSlots.Count; i++)
+        {
+            Console.WriteLine($"Slot {i}: {TheSlots.SelectedSlots[i]}");
+        } *@
 
         if(rosterPlay.Id == 0)
         {
             await RosterPlayProvider.AddRosterPlayAsync(rosterPlay);
-            Slot = new Slots();
+            TheSlots = new Slots();
         }
         else
         {
@@ -104,22 +110,22 @@
 
     private sealed class Slots
     {
-        public List<string?> SelectedSlots { get; set; }
-
+        //New list for users selections
+        public List<string> SelectedSlots { get; set; }
 
         public Slots()
         {
-            SelectedSlots = new List<string?>();
+            //start off the list
+            SelectedSlots = new List<string>();
             for(var x = 1; x < 11; x++)
             {
-                SelectedSlots.Add(null);
+                SelectedSlots.Add("");
             }
         }
 
         public Slots(RosterPlay rosterPlay)
         {
-            SelectedSlots = rosterPlay.SelectedSlots;
-
+            SelectedSlots = rosterPlay.SelectedSlots!;
         }
     }
 }
