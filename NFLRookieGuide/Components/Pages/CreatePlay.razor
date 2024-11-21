@@ -1,12 +1,13 @@
 ﻿@page "/createPlay"
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
+@using System.ComponentModel.DataAnnotations
 @inject PositionProvider PositionProvider
 @inject NavigationManager NavigationManager
 @inject RosterPlayProvider RosterPlayProvider
 
-<h2 style="text-align:center;" class="mb-5">Create Your Play</h2>
-
+<h1 style="text-align:center;" class="mb-4">Create Your Play</h1>
+<h4 style="text-align: center;" class="mb-4">Fill 5 slots with 1 QB, 1 TE, 1 RB and 2 WR</h4>
 <EditForm Model="@TheSlots" OnValidSubmit="Save">
     <div class="row mb-3 justify-content-center">
         @for (int i = 0; i < 5; i++) // First 5 slots
@@ -54,8 +55,10 @@
             </div>
         }
     </div>
+
     <div class="row justify-content-center mt-5">
         <div class="col-auto">
+            <label for="name" class="form-label">Name your play:</label>
             <button class="btn btn-primary btn-lg" style="margin-right: 50px;" @onclick="GoBack">Go Back</button>
             <button type="submit" class="btn btn-danger btn-lg" @onclick="GoToRoster">Save</button>
         </div>
@@ -89,6 +92,7 @@
         RosterPlay rosterPlay = RosterPlay ?? new RosterPlay();
 
         rosterPlay.SelectedSlots = TheSlots!.SelectedSlots!;
+        rosterPlay.Name = TheSlots.Name;
 
         @* testing *@
         @* for (int i = 0; i < TheSlots.SelectedSlots.Count; i++)
@@ -113,6 +117,9 @@
         //New list for users selections
         public List<string> SelectedSlots { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
         public Slots()
         {
             //start off the list
@@ -126,6 +133,7 @@
         public Slots(RosterPlay rosterPlay)
         {
             SelectedSlots = rosterPlay.SelectedSlots!;
+            Name = rosterPlay.Name;
         }
     }
 }

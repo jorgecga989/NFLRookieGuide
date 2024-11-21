@@ -11,8 +11,8 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241120164035_SelectedSlots")]
-    partial class SelectedSlots
+    [Migration("20241121154134_RosterPlay")]
+    partial class RosterPlay
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -303,6 +303,10 @@ namespace NFLRookieGuide.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("SelectedSlots")
                         .IsRequired()

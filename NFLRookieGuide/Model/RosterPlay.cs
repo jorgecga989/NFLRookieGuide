@@ -3,7 +3,7 @@
     public class RosterPlay
     {
         public int Id { get; set; }
-        //slots can be empty
-     public List<string?> SelectedSlots { get; set; }
+        public string Name { get; set; }
+        public List<string?> SelectedSlots { get; set; }
     }
 }
