@@ -8,7 +8,7 @@
 
 <h1 style="text-align:center;" class="mb-4">Create Your Play</h1>
 <h4 style="text-align: center;" class="mb-4">Fill 5 slots with 1 QB, 1 TE, 1 RB and 2 WR</h4>
-<EditForm Model="@TheSlots" OnValidSubmit="Save">
+@* <EditForm Model="@TheSlots" OnValidSubmit="Save">
     <div class="row mb-3 justify-content-center">
         @for (int i = 0; i < 5; i++) // First 5 slots
         {
@@ -56,14 +56,17 @@
         }
     </div>
 
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-4">
         <div class="col-auto">
-            <label for="name" class="form-label">Name your play:</label>
             <button class="btn btn-primary btn-lg" style="margin-right: 50px;" @onclick="GoBack">Go Back</button>
             <button type="submit" class="btn btn-danger btn-lg" @onclick="GoToRoster">Save</button>
+            <div class="col-auto  ">
+                <label for="name" class="form-label mt-5 fs-5"><strong>Name your play:</strong></label>
+                <InputText id="name" @bind-Value="TheSlots.Name" class="form_control" style="border: 2px solid#000; "/>
+            </div>
         </div>
     </div>
-</EditForm>
+</EditForm> *@
 
 @code {
     [Parameter]
@@ -81,36 +84,36 @@
         NavigationManager.NavigateTo("/selection");
     }
 
-    public void GoToRoster()
+    public void GoToRoster(RosterPlay rosterPlay)
     {
-        NavigationManager.NavigateTo("roster");
+        NavigationManager.NavigateTo($"/roster{rosterPlay.Name}");
     }
 
-    public async Task Save()
-    {
-        //Creating a new roster play component to add the selections
-        RosterPlay rosterPlay = RosterPlay ?? new RosterPlay();
+    // public async Task Save()
+    // {
+    //     //Creating a new roster play component to add the selections
+    //     RosterPlay rosterPlay = RosterPlay ?? new RosterPlay();
 
-        rosterPlay.SelectedSlots = TheSlots!.SelectedSlots!;
-        rosterPlay.Name = TheSlots.Name;
+    //     rosterPlay.SelectedSlots = TheSlots!.SelectedSlots!;
+    //     rosterPlay.Name = TheSlots.Name;
 
-        @* testing *@
-        @* for (int i = 0; i < TheSlots.SelectedSlots.Count; i++)
-        {
-            Console.WriteLine($"Slot {i}: {TheSlots.SelectedSlots[i]}");
-        } *@
+    //     @* testing *@
+    //     @* for (int i = 0; i < TheSlots.SelectedSlots.Count; i++)
+    //     {
+    //         Console.WriteLine($"Slot {i}: {TheSlots.SelectedSlots[i]}");
+    //     } *@
 
-        if(rosterPlay.Id == 0)
-        {
-            await RosterPlayProvider.AddRosterPlayAsync(rosterPlay);
-            TheSlots = new Slots();
-        }
-        else
-        {
-            await RosterPlayProvider.UpdateRosterPlayAsync(rosterPlay);
-        }
+    //     if(rosterPlay.Id == 0)
+    //     {
+    //         await RosterPlayProvider.AddRosterPlayAsync(rosterPlay);
+    //         TheSlots = new Slots();
+    //     }
+    //     else
+    //     {
+    //         await RosterPlayProvider.UpdateRosterPlayAsync(rosterPlay);
+    //     }
 
-    }
+    // }
 
     private sealed class Slots
     {

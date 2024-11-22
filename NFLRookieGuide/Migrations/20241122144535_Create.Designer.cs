@@ -11,8 +11,8 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241121154134_RosterPlay")]
-    partial class RosterPlay
+    [Migration("20241122144535_Create")]
+    partial class Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
