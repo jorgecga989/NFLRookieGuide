@@ -1,21 +1,19 @@
-﻿@page "/roster/{id:int}"
+﻿@page "/roster"
 @using Microsoft.EntityFrameworkCore
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
 @inject RosterPlayProvider RosterPlayProvider
 
 <h3>Made Roster</h3>
-<h1></h1>
+
+
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
 
-    public RosterPlay? createdPlay { get; set; }
+    private IEnumerable<RosterPlay> plays;
 
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     createdPlay = await RosterPlayProvider.GetAllRosterPlaysAsync();
-    //     createdPlay = createdPlay.SingleOrDefault(p => p.Id == Id);
-    // }
+    protected override async Task OnInitializedAsync()
+    {
+        plays = await RosterPlayProvider.GetAllRosterPlaysAsync();
+    }
 }

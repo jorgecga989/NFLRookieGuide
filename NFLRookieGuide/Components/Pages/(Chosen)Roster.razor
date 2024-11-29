@@ -45,7 +45,6 @@
     public int Id { get; set; }
 
     private IEnumerable<Play> plays;
-    private Play play;
 
     private Play? chosenPlay;
 
@@ -53,6 +52,5 @@
     {
         plays = await PlayProvider.GetAllPlaysAsync();
         chosenPlay = plays.SingleOrDefault(p => p.Id == Id);
-    } //gets plays from the database 
-
+    } 
 }

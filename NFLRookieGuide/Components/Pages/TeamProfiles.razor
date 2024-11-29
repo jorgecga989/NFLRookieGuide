@@ -173,7 +173,7 @@ else
         chosenTeam = teams.SingleOrDefault(p => p.Id == Id);
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
-            "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=r3wGOsDopCEioyNnxFdeMEM0D0hZn4fOJeyg5VLZ");
+            "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
         var client = _clientFactory.CreateClient();
 
         HttpResponseMessage AllTeamsresponse = await client.SendAsync(AllTeamsrequest);
@@ -200,7 +200,7 @@ else
         }
 
         var request = new HttpRequestMessage(HttpMethod.Get, 
-            $"https://api.sportradar.com/nfl/official/trial/v7/en/teams/{IdChosenTeam}/full_roster.json?api_key=r3wGOsDopCEioyNnxFdeMEM0D0hZn4fOJeyg5VLZ");
+            $"https://api.sportradar.com/nfl/official/trial/v7/en/teams/{IdChosenTeam}/full_roster.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
 
         HttpResponseMessage response = await client.SendAsync(request);
 
