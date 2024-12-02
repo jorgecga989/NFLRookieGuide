@@ -2,7 +2,6 @@
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
 @using System.ComponentModel.DataAnnotations
-@inject PositionProvider PositionProvider
 @inject NavigationManager NavigationManager
 @inject RosterPlayProvider RosterPlayProvider
 
@@ -86,7 +85,7 @@
 
     public void GoToRoster()
     {
-        NavigationManager.NavigateTo($"/roster");
+        NavigationManager.NavigateTo("/roster");
     }
 
     public async Task Save()

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-//using NFLRookieGuide.Migrations;
 using NFLRookieGuide.Model;
 
 namespace NFLRookieGuide.Context

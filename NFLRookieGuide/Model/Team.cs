@@ -21,7 +21,7 @@
 
         public string ActualTeamName()
         {
-            string[] actualTeamName = Name.Split(" ");//takes the colours property and takes the first word, the colour I need
+            string[] actualTeamName = Name.Split(" ");
             return actualTeamName[^1];
 
         }

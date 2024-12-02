@@ -4,7 +4,8 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime Date_created { get; set; }
-        public List<RosterPlayer> RosterPlayers { get; set; } //lists players used for this roster and their characteristics
+        public DateTime? Date_created { get; set; }
+        public List<PlayerAPI?> PlayerAPI { get; set; }
+        public List<string?> SelectedSlots { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NFLRookieGuide.Migrations
 {
     /// <inheritdoc />
-    public partial class Create : Migration
+    public partial class RosterMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -211,7 +211,8 @@ namespace NFLRookieGuide.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Date_created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Date_created = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    SelectedSlots = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -331,6 +332,35 @@ namespace NFLRookieGuide.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlayerAPI",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "TEXT", nullable: false),
+                    name = table.Column<string>(type: "TEXT", nullable: false),
+                    jersey = table.Column<string>(type: "TEXT", nullable: false),
+                    last_name = table.Column<string>(type: "TEXT", nullable: false),
+                    first_name = table.Column<string>(type: "TEXT", nullable: false),
+                    birth_date = table.Column<string>(type: "TEXT", nullable: false),
+                    weight = table.Column<float>(type: "REAL", nullable: false),
+                    height = table.Column<int>(type: "INTEGER", nullable: false),
+                    position = table.Column<string>(type: "TEXT", nullable: false),
+                    birth_place = table.Column<string>(type: "TEXT", nullable: false),
+                    high_school = table.Column<string>(type: "TEXT", nullable: false),
+                    college = table.Column<string>(type: "TEXT", nullable: false),
+                    rookie_year = table.Column<int>(type: "INTEGER", nullable: false),
+                    RosterId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayerAPI", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_PlayerAPI_Rosters_RosterId",
+                        column: x => x.RosterId,
+                        principalTable: "Rosters",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RosterPlayer",
                 columns: table => new
                 {
@@ -402,6 +432,11 @@ namespace NFLRookieGuide.Migrations
                 name: "IX_Player_TeamId",
                 table: "Player",
                 column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayerAPI_RosterId",
+                table: "PlayerAPI",
+                column: "RosterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Plays_Position10Id",
@@ -486,6 +521,9 @@ namespace NFLRookieGuide.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "PlayerAPI");
 
             migrationBuilder.DropTable(
                 name: "Plays");

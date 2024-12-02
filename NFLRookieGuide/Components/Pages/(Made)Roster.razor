@@ -2,18 +2,216 @@
 @using Microsoft.EntityFrameworkCore
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
+@using System.ComponentModel.DataAnnotations
 @inject RosterPlayProvider RosterPlayProvider
+@inject NavigationManager NavigationManager
+@inject IHttpClientFactory _clientFactory
 
-<h3>Made Roster</h3>
+
+<h1 style="text-align:center;" class="mb-4">Select your players</h1>
+
+<EditForm Model="@TheSlots" OnValidSubmit="Save">
+    <div class="row mb-3 justify-content-center">
+        @for (int i = 0; i < 5; i++) // First 5 slots
+        {
+            int index = i; // Must be initialized in the loop to be used in @bind-Value
+            <div class="col-md-2">
+                <div class="card" style="border: 2px solid#000;">
+                    <div class="card-body">
+                        <h5 class="card-title">Slot @(i + 1)</h5>
+                        <div class="form-group">
+                            <label for="@($"slot{i}")" class="form-label">Position:</label>
+                            <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                <option value=""></option>
+                                <option value="quarterback">Quarterback</option>
+                                <option value="running back">Running Back</option>
+                                <option value="tight end">Tight End</option>
+                                <option value="wide receiver">Wide Receiver</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row justify-content-center mt-5">
+        @for (int i = 5; i < 10; i++)
+        {
+            int index = i; // Must be initialized in the loop to be used in @bind-Value
+            <div class="col-md-2">
+                <div class="card" style="border: 2px solid#000;">
+                    <div class="card-body">
+                        <h5 class="card-title">Slot @(i + 1)</h5>
+                        <div class="form-group">
+                            <label for="@($"slot{i}")" class="form-label">Position:</label>
+                            <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                <option value=""></option>
+                                <option value="quarterback">Quarterback</option>
+                                <option value="running back">Running Back</option>
+                                <option value="tight end">Tight End</option>
+                                <option value="wide receiver">Wide Receiver</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-auto">
+            <button class="btn btn-primary btn-lg" style="margin-right: 50px;" @onclick="GoBack">Go Back</button>
+            <button type="submit" class="btn btn-danger btn-lg" >Save</button>
+            <div class="col-auto  ">
+                <label for="name" class="form-label mt-5 fs-5"><strong>Name your roster:</strong></label>
+                <InputText id="name" @bind-Value="TheSlots.Name" class="form_control" style="border: 2px solid#000; " />
+            </div>
+        </div>
+    </div>
+</EditForm>
+@if (string.IsNullOrWhiteSpace(errorString) == false)
+{
+    <h2> @errorString</h2>
+}
+else if (teamApi is null)
+{
+    <h4> Loading...</h4>
+}
+else
+{
+    <table class="table table-stripped">
+        <thead class="thread-dark">
+            <tr>
+                <th>Name</th>
+                <th>Birth Date</th>
+                <th>Jersey Number</th>
+                <th>Weight (Lbs)</th>
+                <th>Height (Inches)</th>
+                <th>Position</th>
+                <th>College</th>
+                <th>Rookie Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in teamApi.players.OrderBy(p => p.position))
+            {
+                @if (player.position == "QB" || player.position == "RB" || player.position == "WR" || player.position == "TE")
+                {
+                    <tr>
+                        <td>@player.name</td>
+                        <td>@player.birth_date</td>
+                        <td>@player.jersey</td>
+                        <td>@player.weight</td>
+                        <td>@player.height</td>
+                        <td>@player.position</td>
+                        <td>@player.college</td>
+                        <td>@player.rookie_year</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
 
 
 
 @code {
+    [Parameter]
+    public Roster? Roster{ get; set; }
+    //creates a new roster instance
 
-    private IEnumerable<RosterPlay> plays;
+    private Slots? TheSlots { get; set; }
+
+    public string chosenTeam = "Patriots";
+    public string IdChosenTeam;
+
+    TeamAPI teamApi;
+    TeamsAPI teamsApi;
+    string errorString;
 
     protected override async Task OnInitializedAsync()
     {
-        plays = await RosterPlayProvider.GetAllRosterPlaysAsync();
+        Console.WriteLine("Request");
+
+        var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
+            "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
+        var client = _clientFactory.CreateClient();
+
+        Console.WriteLine("Client");
+
+        using HttpResponseMessage AllTeamsresponse = await client.SendAsync(AllTeamsrequest);
+
+        Console.WriteLine("response");
+
+        if (AllTeamsresponse.IsSuccessStatusCode)
+        {
+            teamsApi = await AllTeamsresponse.Content.ReadFromJsonAsync<TeamsAPI>();
+            errorString = null;
+        }
+        else
+        {
+            errorString = "Error loading data";
+            return;
+        }
+
+
+        for (int i = 0; i < teamsApi.teams.Count; i++)
+        {
+            if (chosenTeam == teamsApi.teams[i].name)
+            {
+                IdChosenTeam = teamsApi.teams[i].id;
+            }
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://api.sportradar.com/nfl/official/trial/v7/en/teams/{IdChosenTeam}/profile.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
+
+        HttpResponseMessage response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            teamApi = await response.Content.ReadFromJsonAsync<TeamAPI>();
+            errorString = null;
+        }
+        else
+        {
+            errorString = "Error loading data";
+        }
+
+    }
+
+    public async Task Save()
+    {
+        Roster roster = Roster ?? new Roster();
+    }
+
+    public void GoBack()
+    {
+        NavigationManager.NavigateTo("/createPlay");
+    }
+
+    private sealed class Slots
+    {
+        //New list for users selections
+        public List<string> SelectedSlots { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public Slots()
+        {
+            //start off the list
+            SelectedSlots = new List<string>();
+            for (var x = 1; x < 11; x++)
+            {
+                SelectedSlots.Add("");
+            }
+        }
+
+        public Slots(Roster roster)
+        {
+            SelectedSlots = roster.SelectedSlots!;
+            Name = roster.Name;
+        }
     }
 }
