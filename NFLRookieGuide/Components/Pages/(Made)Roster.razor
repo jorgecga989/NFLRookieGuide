@@ -5,12 +5,13 @@
 @using System.ComponentModel.DataAnnotations
 @inject RosterPlayProvider RosterPlayProvider
 @inject NavigationManager NavigationManager
+@inject RosterProvider RosterProvider
 @inject IHttpClientFactory _clientFactory
 
 
 <h1 style="text-align:center;" class="mb-4">Select your players</h1>
 
-<EditForm Model="@TheSlots" OnValidSubmit="Save">
+<EditForm Model="@TheSlots" OnValidSubmit="@Save" >
     <div class="row mb-3 justify-content-center">
         @for (int i = 0; i < 5; i++) // First 5 slots
         {
@@ -69,6 +70,7 @@
         </div>
     </div>
 </EditForm>
+
 @if (string.IsNullOrWhiteSpace(errorString) == false)
 {
     <h2> @errorString</h2>
@@ -114,7 +116,6 @@ else
 }
 
 
-
 @code {
     [Parameter]
     public Roster? Roster{ get; set; }
@@ -135,11 +136,11 @@ else
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient();
+        var client = _clientFactory.CreateClient("Proxy");
 
         Console.WriteLine("Client");
 
-        using HttpResponseMessage AllTeamsresponse = await client.SendAsync(AllTeamsrequest);
+        HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
 
         Console.WriteLine("response");
 
@@ -166,7 +167,7 @@ else
         var request = new HttpRequestMessage(HttpMethod.Get,
             $"https://api.sportradar.com/nfl/official/trial/v7/en/teams/{IdChosenTeam}/profile.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
 
-        HttpResponseMessage response = await client.SendAsync(request);
+        HttpResponseMessage response = client.Send(request);
 
         if (response.IsSuccessStatusCode)
         {
@@ -182,7 +183,22 @@ else
 
     public async Task Save()
     {
+        //Creating a new roster play component to add the selections
         Roster roster = Roster ?? new Roster();
+
+        roster.SelectedSlots = TheSlots!.SelectedSlots!;
+        roster.Name = TheSlots.Name;
+
+        if (roster.Id == 0)
+        {
+            await RosterProvider.AddRosterAsync(roster);
+            TheSlots = new Slots();
+        }
+        else
+        {
+            await RosterProvider.UpdateRosterAsync(roster);
+        }
+
     }
 
     public void GoBack()

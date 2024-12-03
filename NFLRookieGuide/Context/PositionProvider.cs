@@ -12,6 +12,7 @@ namespace NFLRookieGuide.Context
             _context = context;
         }
 
+
         public async Task<List<Position>> GetAllPositionsAsync()
         {
             return await _context.Positions.OrderBy(position => position.Name).ToListAsync();

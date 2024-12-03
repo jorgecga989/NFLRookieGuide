@@ -12,7 +12,7 @@ namespace NFLRookieGuide.Context
             _context = context;
         }
 
-        public async Task AddRoster(Roster roster)
+        public async Task AddRosterAsync(Roster roster)
         {
             _context.Rosters.Add(roster);
             await _context.SaveChangesAsync();
@@ -22,10 +22,10 @@ namespace NFLRookieGuide.Context
         {
             return await _context.Rosters.OrderBy(roster => roster.Name).ToListAsync();
         }
-
-        public Roster? GetRoster(int id)
+        public async Task UpdateRosterAsync(Roster roster)
         {
-            return _context.Rosters.Find(id);
+            _context.Rosters.Update(roster);
+            await _context.SaveChangesAsync();
         }
     }
 }
