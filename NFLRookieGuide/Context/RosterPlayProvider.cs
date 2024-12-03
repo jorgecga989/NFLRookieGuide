@@ -15,6 +15,12 @@ namespace NFLRookieGuide.Context
         {
             return await _context.RosterPlays.OrderBy(rosterPlay => rosterPlay.Name).ToListAsync();
         }
+
+        public async Task<RosterPlay?> NewestPlayAsync()
+        {
+            return await _context.RosterPlays.OrderByDescending(RosterPlay => RosterPlay.Id).FirstOrDefaultAsync();
+        }
+
         public async Task AddRosterPlayAsync(RosterPlay rosterPlay)
         {
             _context.RosterPlays.Add(rosterPlay);

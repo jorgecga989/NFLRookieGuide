@@ -11,7 +11,7 @@
 
 <h1 style="text-align:center;" class="mb-4">Select your players</h1>
 
-<EditForm Model="@TheSlots" OnValidSubmit="@Save" >
+<EditForm Model="@TheSlots" OnValidSubmit="Save">
     <div class="row mb-3 justify-content-center">
         @for (int i = 0; i < 5; i++) // First 5 slots
         {
@@ -21,13 +21,16 @@
                     <div class="card-body">
                         <h5 class="card-title">Slot @(i + 1)</h5>
                         <div class="form-group">
-                            <label for="@($"slot{i}")" class="form-label">Position:</label>
+                            <label for="@($"slot{i}")" class="form-label">Player:</label>
                             <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
                                 <option value=""></option>
-                                <option value="quarterback">Quarterback</option>
-                                <option value="running back">Running Back</option>
-                                <option value="tight end">Tight End</option>
-                                <option value="wide receiver">Wide Receiver</option>
+                                @foreach(var player in teamApi.players.OrderBy(p => p.position))
+                                {
+                                    @if (player.position == "QB" || player.position == "RB" || player.position == "WR" || player.position == "TE")
+                                    {
+                                        <option value="@player.name">@player.name</option>
+                                    }
+                                }
                             </InputSelect>
                         </div>
                     </div>
@@ -44,13 +47,17 @@
                     <div class="card-body">
                         <h5 class="card-title">Slot @(i + 1)</h5>
                         <div class="form-group">
-                            <label for="@($"slot{i}")" class="form-label">Position:</label>
+                            <label for="@($"slot{i}")" class="form-label">Player:</label>
                             <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
                                 <option value=""></option>
-                                <option value="quarterback">Quarterback</option>
-                                <option value="running back">Running Back</option>
-                                <option value="tight end">Tight End</option>
-                                <option value="wide receiver">Wide Receiver</option>
+                                @foreach (var player in teamApi.players.OrderBy(p => p.position))
+                                {
+                                    @if (player.position == "QB" || player.position == "RB" || player.position == "WR" || player.position == "TE")
+                                    {
+                                        <option value="@player.name">@player.name</option>
+                                        @*Loops over every player got in the api*@
+                                    }
+                                }
                             </InputSelect>
                         </div>
                     </div>
@@ -81,38 +88,23 @@ else if (teamApi is null)
 }
 else
 {
-    <table class="table table-stripped">
-        <thead class="thread-dark">
-            <tr>
-                <th>Name</th>
-                <th>Birth Date</th>
-                <th>Jersey Number</th>
-                <th>Weight (Lbs)</th>
-                <th>Height (Inches)</th>
-                <th>Position</th>
-                <th>College</th>
-                <th>Rookie Year</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var player in teamApi.players.OrderBy(p => p.position))
-            {
-                @if (player.position == "QB" || player.position == "RB" || player.position == "WR" || player.position == "TE")
-                {
-                    <tr>
-                        <td>@player.name</td>
-                        <td>@player.birth_date</td>
-                        <td>@player.jersey</td>
-                        <td>@player.weight</td>
-                        <td>@player.height</td>
-                        <td>@player.position</td>
-                        <td>@player.college</td>
-                        <td>@player.rookie_year</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+    <h2>Api is working</h2>
+    @if(rosterPlay.Id == null)
+    {
+        <p>Nothing</p>
+    }
+    else
+    {
+        <div>
+            <p>@rosterPlay.Name</p>
+            <p>@rosterPlay.SelectedSlots[0]</p>
+             <p>@rosterPlay.SelectedSlots[1]</p>
+            <p>@rosterPlay.SelectedSlots[2]</p>
+             <p>@rosterPlay.SelectedSlots[3]</p>
+            <p>@rosterPlay.SelectedSlots[4]</p>
+            <p>@rosterPlay.SelectedSlots[5]</p>
+        </div>
+    }
 }
 
 
@@ -122,6 +114,8 @@ else
     //creates a new roster instance
 
     private Slots? TheSlots { get; set; }
+    private RosterPlay rosterPlay;
+
 
     public string chosenTeam = "Patriots";
     public string IdChosenTeam;
@@ -130,19 +124,22 @@ else
     TeamsAPI teamsApi;
     string errorString;
 
+
+    protected override void OnInitialized()
+    {
+        TheSlots = Roster != null ? new Slots(Roster) : new Slots();
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Request");
+        rosterPlay = await RosterPlayProvider.NewestPlayAsync();
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient("Proxy");
-
-        Console.WriteLine("Client");
+        var client = _clientFactory.CreateClient();
 
         HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
-
-        Console.WriteLine("response");
+        //recieves whether getting the apis info was succesfull or not
 
         if (AllTeamsresponse.IsSuccessStatusCode)
         {
