@@ -19,6 +19,7 @@ namespace NFLRookieGuide.Context
         public async Task<RosterPlay?> NewestPlayAsync()
         {
             return await _context.RosterPlays.OrderByDescending(RosterPlay => RosterPlay.Id).FirstOrDefaultAsync();
+            //Gets the play that the user recently created
         }
 
         public async Task AddRosterPlayAsync(RosterPlay rosterPlay)
