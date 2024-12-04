@@ -9,7 +9,8 @@
 @inject IHttpClientFactory _clientFactory
 
 
-<h1 style="text-align:center;" class="mb-4">Select your players</h1>
+<h1 style="text-align:center;" class="mb-4">Select your players for your chosen positions</h1>
+<h4 style="text-align: center;" class="mb-4"></h4>
 
 <EditForm Model="@TheSlots" OnValidSubmit="Save">
     <div class="row mb-3 justify-content-center">
@@ -19,16 +20,20 @@
             <div class="col-md-2">
                 <div class="card" style="border: 2px solid#000;">
                     <div class="card-body">
-                        <h5 class="card-title">Slot @(i + 1)</h5>
+                        <h5 class="card-title">Slot @(i + 1): <strong>@rosterPlay.SelectedSlots[index]</strong></h5>
                         <div class="form-group">
                             <label for="@($"slot{i}")" class="form-label">Player:</label>
                             <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
                                 <option value=""></option>
                                 @foreach(var player in teamApi.players.OrderBy(p => p.position))
                                 {
-                                    @if (player.position == "QB" || player.position == "RB" || player.position == "WR" || player.position == "TE")
+                                    @if(rosterPlay.SelectedSlots[index] != null)
                                     {
-                                        <option value="@player.name">@player.name</option>
+                                        string currentPosition = rosterPlay.SelectedSlots[index];
+                                        @if (player.position == currentPosition)
+                                        {
+                                            <option value="@player.name">@player.name</option>
+                                        }
                                     }
                                 }
                             </InputSelect>
@@ -45,17 +50,22 @@
             <div class="col-md-2">
                 <div class="card" style="border: 2px solid#000;">
                     <div class="card-body">
-                        <h5 class="card-title">Slot @(i + 1)</h5>
+                        <h5 class="card-title">Slot @(i + 1): <strong>@rosterPlay.SelectedSlots[index]</strong></h5>
                         <div class="form-group">
                             <label for="@($"slot{i}")" class="form-label">Player:</label>
                             <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
                                 <option value=""></option>
                                 @foreach (var player in teamApi.players.OrderBy(p => p.position))
                                 {
-                                    @if (player.position == "QB" || player.position == "RB" || player.position == "WR" || player.position == "TE")
+                                    @if (rosterPlay.SelectedSlots[index] != null)
                                     {
-                                        <option value="@player.name">@player.name</option>
-                                        @*Loops over every player got in the api*@
+                                        @*Only displays players if the user selected the slot previously*@
+                                        string currentPosition = rosterPlay.SelectedSlots[index];
+                                        @if (player.position == currentPosition)
+                                        {
+                                            @*Displays players from the position selected in that slot*@
+                                            <option value="@player.name">@player.name</option>
+                                        }
                                     }
                                 }
                             </InputSelect>
@@ -88,23 +98,7 @@ else if (teamApi is null)
 }
 else
 {
-    <h2>Api is working</h2>
-    @if(rosterPlay.Id == null)
-    {
-        <p>Nothing</p>
-    }
-    else
-    {
-        <div>
-            <p>@rosterPlay.Name</p>
-            <p>@rosterPlay.SelectedSlots[0]</p>
-             <p>@rosterPlay.SelectedSlots[1]</p>
-            <p>@rosterPlay.SelectedSlots[2]</p>
-             <p>@rosterPlay.SelectedSlots[3]</p>
-            <p>@rosterPlay.SelectedSlots[4]</p>
-            <p>@rosterPlay.SelectedSlots[5]</p>
-        </div>
-    }
+    <h5>Api is working</h5>
 }
 
 
@@ -133,10 +127,11 @@ else
     protected override async Task OnInitializedAsync()
     {
         rosterPlay = await RosterPlayProvider.NewestPlayAsync();
+        //calls method to get the newly created play
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient("Proxy");
+        var client = _clientFactory.CreateClient();
 
         HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
         //recieves whether getting the apis info was succesfull or not
