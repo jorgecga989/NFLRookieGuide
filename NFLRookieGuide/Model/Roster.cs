@@ -6,6 +6,6 @@
         public string Name { get; set; }
         public DateTime? Date_created { get; set; }
         public List<PlayerAPI?> PlayerAPI { get; set; }
-        public List<string?> SelectedSlots { get; set; }
+        public List<string?> SelectedPlayers { get; set; }
     }
 }

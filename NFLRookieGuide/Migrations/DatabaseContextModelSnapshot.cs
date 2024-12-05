@@ -345,7 +345,7 @@ namespace NFLRookieGuide.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SelectedSlots")
+                    b.Property<string>("SelectedPlayers")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

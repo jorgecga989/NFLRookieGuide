@@ -11,7 +11,7 @@ using NFLRookieGuide.Context;
 namespace NFLRookieGuide.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241130093853_RosterMigration")]
+    [Migration("20241205090759_RosterMigration")]
     partial class RosterMigration
     {
         /// <inheritdoc />
@@ -348,7 +348,7 @@ namespace NFLRookieGuide.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SelectedSlots")
+                    b.Property<string>("SelectedPlayers")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

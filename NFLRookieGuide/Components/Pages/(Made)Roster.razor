@@ -1,4 +1,5 @@
 ﻿@page "/roster"
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.EntityFrameworkCore
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
@@ -79,7 +80,7 @@
     <div class="row justify-content-center mt-4">
         <div class="col-auto">
             <button class="btn btn-primary btn-lg" style="margin-right: 50px;" @onclick="GoBack">Go Back</button>
-            <button type="submit" class="btn btn-danger btn-lg" >Save</button>
+            <button type="submit" class="btn btn-danger btn-lg" @onclick="GoToCatalogue">Save</button>
             <div class="col-auto  ">
                 <label for="name" class="form-label mt-5 fs-5"><strong>Name your roster:</strong></label>
                 <InputText id="name" @bind-Value="TheSlots.Name" class="form_control" style="border: 2px solid#000; " />
@@ -131,7 +132,7 @@ else
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient();
+        var client = _clientFactory.CreateClient("Proxy");
 
         HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
         //recieves whether getting the apis info was succesfull or not
@@ -175,11 +176,15 @@ else
 
     public async Task Save()
     {
-        //Creating a new roster play component to add the selections
+        //Creating a new roster component to add the selections
         Roster roster = Roster ?? new Roster();
+        {
+            roster.Date_created = DateTime.UtcNow;
+        }
 
-        roster.SelectedSlots = TheSlots!.SelectedSlots!;
+        roster.SelectedPlayers = TheSlots!.SelectedSlots!;
         roster.Name = TheSlots.Name;
+        //binding the selections with inputs
 
         if (roster.Id == 0)
         {
@@ -196,6 +201,11 @@ else
     public void GoBack()
     {
         NavigationManager.NavigateTo("/createPlay");
+    }
+
+    public void GoToCatalogue()
+    {
+        NavigationManager.NavigateTo("/catalogue");
     }
 
     private sealed class Slots
@@ -218,7 +228,7 @@ else
 
         public Slots(Roster roster)
         {
-            SelectedSlots = roster.SelectedSlots!;
+            SelectedSlots = roster.SelectedPlayers!;
             Name = roster.Name;
         }
     }

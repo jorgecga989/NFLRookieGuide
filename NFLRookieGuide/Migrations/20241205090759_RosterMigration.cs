@@ -212,7 +212,7 @@ namespace NFLRookieGuide.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Date_created = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    SelectedSlots = table.Column<string>(type: "TEXT", nullable: false),
+                    SelectedPlayers = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
