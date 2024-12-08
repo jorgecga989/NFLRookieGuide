@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NFLRookieGuide.Migrations
 {
     /// <inheritdoc />
-    public partial class RosterMigration : Migration
+    public partial class NewMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,20 +63,6 @@ namespace NFLRookieGuide.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Positions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RosterPlays",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    SelectedSlots = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RosterPlays", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,15 +198,15 @@ namespace NFLRookieGuide.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Date_created = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    SelectedPlayers = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: true)
+                    userId = table.Column<string>(type: "TEXT", nullable: true),
+                    SelectedPlayers = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rosters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rosters_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Rosters_AspNetUsers_userId",
+                        column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
@@ -355,6 +341,26 @@ namespace NFLRookieGuide.Migrations
                     table.PrimaryKey("PK_PlayerAPI", x => x.id);
                     table.ForeignKey(
                         name: "FK_PlayerAPI_Rosters_RosterId",
+                        column: x => x.RosterId,
+                        principalTable: "Rosters",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RosterPlays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    SelectedSlots = table.Column<string>(type: "TEXT", nullable: false),
+                    RosterId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RosterPlays", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RosterPlays_Rosters_RosterId",
                         column: x => x.RosterId,
                         principalTable: "Rosters",
                         principalColumn: "Id");
@@ -499,9 +505,14 @@ namespace NFLRookieGuide.Migrations
                 column: "RosterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rosters_UserId",
+                name: "IX_RosterPlays_RosterId",
+                table: "RosterPlays",
+                column: "RosterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rosters_userId",
                 table: "Rosters",
-                column: "UserId");
+                column: "userId");
         }
 
         /// <inheritdoc />

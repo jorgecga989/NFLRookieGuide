@@ -1,9 +1,11 @@
 ﻿@page "/createPlay"
+@using Microsoft.AspNetCore.Authorization
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
 @using System.ComponentModel.DataAnnotations
 @inject NavigationManager NavigationManager
 @inject RosterPlayProvider RosterPlayProvider
+@attribute [Authorize]
 
 <h1 style="text-align:center;" class="mb-4">Create Your Play</h1>
 <h4 style="text-align: center;" class="mb-4">Fill 5 slots with 1 QB, 1 TE, 1 RB and 2 WR</h4>

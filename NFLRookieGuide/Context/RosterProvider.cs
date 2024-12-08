@@ -18,6 +18,15 @@ namespace NFLRookieGuide.Context
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Roster>?> GetRostersAsync(User? user)
+        {
+            if (user == null) return null;
+
+            return await _context.Rosters
+                .Where(roster => roster.User.UserName == user.UserName)
+                .OrderByDescending(roster => roster.Date_created)
+                .ToListAsync();
+        } //Gets roters created by the user  logged in
         public async Task<List<Roster>> GetAllRostersAsync()
         {
             return await _context.Rosters.OrderBy(roster => roster.Name).ToListAsync();

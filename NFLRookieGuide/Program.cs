@@ -53,7 +53,7 @@ builder.Services.AddHttpClient<HttpClient>("Proxy")
         };
     });
 
-
+builder.Services.AddScoped<UserProvider>();
 builder.Services.AddScoped<DatabaseSeeder>();
 builder.Services.AddScoped<PlayerProvider>();
 builder.Services.AddScoped<TeamProvider>();

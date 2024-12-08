@@ -349,12 +349,12 @@ namespace NFLRookieGuide.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("userId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("userId");
 
                     b.ToTable("Rosters");
                 });
@@ -369,11 +369,16 @@ namespace NFLRookieGuide.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("RosterId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("SelectedSlots")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RosterId");
 
                     b.ToTable("RosterPlays");
                 });
@@ -651,9 +656,18 @@ namespace NFLRookieGuide.Migrations
 
             modelBuilder.Entity("NFLRookieGuide.Model.Roster", b =>
                 {
-                    b.HasOne("NFLRookieGuide.Model.User", null)
+                    b.HasOne("NFLRookieGuide.Model.User", "user")
                         .WithMany("Rosters")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("userId");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("NFLRookieGuide.Model.RosterPlay", b =>
+                {
+                    b.HasOne("NFLRookieGuide.Model.Roster", null)
+                        .WithMany("RosterPlays")
+                        .HasForeignKey("RosterId");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.RosterPlayer", b =>
@@ -688,6 +702,8 @@ namespace NFLRookieGuide.Migrations
             modelBuilder.Entity("NFLRookieGuide.Model.Roster", b =>
                 {
                     b.Navigation("PlayerAPI");
+
+                    b.Navigation("RosterPlays");
                 });
 
             modelBuilder.Entity("NFLRookieGuide.Model.Team", b =>

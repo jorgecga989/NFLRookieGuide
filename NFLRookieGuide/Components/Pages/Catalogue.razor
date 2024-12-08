@@ -1,9 +1,45 @@
 ﻿@page "/catalogue"
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using NFLRookieGuide.Context
+@using NFLRookieGuide.Model
+@inject UserProvider UserProvider
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject RosterProvider RosterProvider
 @attribute [Authorize]
 
-<h3>Catalogue</h3>
+<h1 style="text-align:center;" class="mb-4">Your rosters</h1>
+
+@if (rosters is null)
+{
+    <p>Loading...</p>
+}
+else if(!rosters.Any())
+{
+    <p>No rosters have been created</p>
+}
+else
+{
+    @foreach (var roster in rosters)
+    {
+        <p>@roster.Name</p>
+        @for (var i = 0; i >= 10; i++)
+        {
+            <p>@roster.SelectedPlayers[i]</p>
+        }
+       
+    }
+}
 
 @code {
+    private IEnumerable<Roster> rosters;
 
+    protected async override Task OnInitializedAsync()
+    {
+        var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var username = authstate.User!.Identity!.Name!;
+        var user = UserProvider.GetUserByUsername(username);
+
+        rosters = await RosterProvider.GetRostersAsync(user!);
+    }
 }

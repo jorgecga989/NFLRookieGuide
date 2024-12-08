@@ -1,5 +1,6 @@
 ﻿@page "/roster"
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.EntityFrameworkCore
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
@@ -8,6 +9,10 @@
 @inject NavigationManager NavigationManager
 @inject RosterProvider RosterProvider
 @inject IHttpClientFactory _clientFactory
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserProvider UserProvider
+
 
 
 <h1 style="text-align:center;" class="mb-4">Select your players for your chosen positions</h1>
@@ -107,6 +112,7 @@ else
     [Parameter]
     public Roster? Roster{ get; set;}
     //creates a new roster instance
+    private User user;
 
     private Slots? TheSlots { get; set;}
     private RosterPlay rosterPlay;
@@ -130,9 +136,14 @@ else
         rosterPlay = await RosterPlayProvider.NewestPlayAsync();
         //calls method to get the newly created play
 
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var username = authState!.User!.Identity!.Name!;
+        user = UserProvider.GetUserByUsername(username)!;
+        //Gets current user
+
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient("Proxy");
+        var client = _clientFactory.CreateClient();
 
         HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
         //recieves whether getting the apis info was succesfull or not
@@ -176,12 +187,10 @@ else
 
     public async Task Save()
     {
-        //Creating a new roster component to add the selections
+        // Creating a new roster component to add the selections
         Roster roster = Roster ?? new Roster();
-        {
-            roster.Date_created = DateTime.UtcNow;
-        }
-
+        roster.Date_created = DateTime.UtcNow;
+        roster.User = user;
         roster.SelectedPlayers = TheSlots!.SelectedSlots!;
         roster.Name = TheSlots.Name;
         //binding the selections with inputs
