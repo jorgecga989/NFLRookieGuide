@@ -19,12 +19,29 @@ namespace NFLRookieGuide.Context
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteRoster(Roster roster)
+        public async Task DeleteRosterAsync(Roster roster)
         {
+            // Remove the roster from the database
             _context.Rosters.Remove(roster);
             await _context.SaveChangesAsync();
-            OnRosterUpdated?.Invoke();
+
+            // Safely invoke
+            if (OnRosterUpdated != null)
+            {
+                foreach (var handler in OnRosterUpdated.GetInvocationList())
+                {
+                    if (handler is Func<Task> asyncHandler)
+                    {
+                        await asyncHandler();
+                    }
+                    else
+                    {
+                        ((Action)handler)?.Invoke();
+                    }
+                }
+            }
         }
+
         public async Task<List<Roster>?> GetRostersAsync(User? user)
         {
             if (user == null) return null;
@@ -34,6 +51,7 @@ namespace NFLRookieGuide.Context
                 .OrderByDescending(roster => roster.Date_created)
                 .ToListAsync();
         } //Gets roters created by the user  logged in
+
         public async Task<List<Roster>> GetAllRostersAsync()
         {
             return await _context.Rosters.OrderBy(roster => roster.Name).ToListAsync();
