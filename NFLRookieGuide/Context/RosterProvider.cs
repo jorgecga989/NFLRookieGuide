@@ -6,6 +6,7 @@ namespace NFLRookieGuide.Context
     public class RosterProvider
     {
         private readonly DatabaseContext _context;
+        public event Action? OnRosterUpdated;
 
         public RosterProvider(DatabaseContext context)
         {
@@ -18,6 +19,12 @@ namespace NFLRookieGuide.Context
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteRoster(Roster roster)
+        {
+            _context.Rosters.Remove(roster);
+            await _context.SaveChangesAsync();
+            OnRosterUpdated?.Invoke();
+        }
         public async Task<List<Roster>?> GetRostersAsync(User? user)
         {
             if (user == null) return null;

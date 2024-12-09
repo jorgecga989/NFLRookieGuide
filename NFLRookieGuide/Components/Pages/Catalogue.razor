@@ -54,12 +54,15 @@ else
                             }
                         }
                         <td>
-                            <button class="btn btn-outline-danger">Delete</button>
-                            <button class="btn btn-outline-primary">Edit</button>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-danger mt-1" @onclick="() => Delete(roster)">Delete</button>
+                                <button class="btn btn-primary mt-1">Edit</button>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
+
         </table>
     </div>
 }
@@ -68,6 +71,11 @@ else
 @code {
     private IEnumerable<Roster> rosters;
 
+    protected override void OnInitialized()
+    {
+        RosterProvider.OnRosterUpdated += StateHasChanged;
+    }
+
     protected async override Task OnInitializedAsync()
     {
         var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -75,5 +83,10 @@ else
         var user = UserProvider.GetUserByUsername(username);
 
         rosters = await RosterProvider.GetRostersAsync(user!);
+    }
+
+    private void Delete(Roster roster)
+    {
+        RosterProvider.DeleteRoster(roster);
     }
 }
