@@ -8,28 +8,62 @@
 @inject RosterProvider RosterProvider
 @attribute [Authorize]
 
-<h1 style="text-align:center;" class="mb-4">Your rosters</h1>
+<h1 style="font-size: 55px; text-align:center; margin-top: 50px;" class="mb-4">Your teams</h1>
 
 @if (rosters is null)
 {
     <p>Loading...</p>
 }
-else if(!rosters.Any())
+else if (!rosters.Any())
 {
     <p>No rosters have been created</p>
 }
 else
 {
-    @foreach (var roster in rosters)
-    {
-        <p>@roster.Name</p>
-        @for (var i = 0; i >= 10; i++)
-        {
-            <p>@roster.SelectedPlayers[i]</p>
-        }
-       
-    }
+    <div style="margin-top: 75px;">
+        <table class="table table-striped table-bordered" style="table-layout: fixed; width: 100%;">
+            <thead style="background-color: #d3d3d3;">
+                <tr>
+                    <th style="min-height: 50px;">Roster Name</th>
+                    @if (rosters.SelectMany(r => r.SelectedPlayers ?? Enumerable.Empty<string>()).Any())
+                    {
+                        var maxSlots = rosters.Max(r => r.SelectedPlayers?.Count ?? 0);
+                        for (int i = 0; i < maxSlots; i++)
+                        {
+                            <th style="min-height: 50px;">Slot @($"{i + 1}")</th>
+                        }
+                    }
+                    <th style="min-height:50px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var roster in rosters)
+                {
+                    <tr style="height: 60px;">
+                        <td>@roster.Name</td>
+                        @if (roster.SelectedPlayers != null)
+                        {
+                            for (int i = 0; i < (rosters.Max(r => r.SelectedPlayers?.Count) ?? 0); i++)
+                            {
+                                <td style="height: 60px; vertical-align: middle; text-align: center;">
+                                    @if (i < roster.SelectedPlayers.Count && roster.SelectedPlayers[i] != null)
+                                    {
+                                        @roster.SelectedPlayers[i]
+                                    }
+                                </td>
+                            }
+                        }
+                        <td>
+                            <button class="btn btn-outline-danger">Delete</button>
+                            <button class="btn btn-outline-primary">Edit</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
+
 
 @code {
     private IEnumerable<Roster> rosters;
