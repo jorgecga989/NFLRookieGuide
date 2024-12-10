@@ -25,7 +25,7 @@ else
     if (editVisible == true)
     {
         <p>editRoster.Name</p>
-        <EditForm Model="@Rosters" OnValidSubmit="Update">
+        <EditForm Model="@TheSlots" OnValidSubmit="Update">
             <div class="row mb-3 justify-content-center">
                 @for (int i = 0; i < 5; i++) // First 5 slots
                 {
@@ -33,16 +33,16 @@ else
                     <div class="col-md-2">
                         <div class="card" style="border: 2px solid#000;">
                             <div class="card-body">
-                                <h5 class="card-title">Slot @(i + 1): <strong>@rosterPlay.SelectedSlots[index]</strong></h5>
+                                <h5 class="card-title">Slot @(i + 1): <strong>@editRoster.SelectedPlayers[index]</strong></h5>
                                 <div class="form-group">
                                     <label for="@($"slot{i}")" class="form-label">Player:</label>
                                     <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
                                         <option value=""></option>
                                         @foreach (var player in teamApi.players.OrderBy(p => p.position))
                                         {
-                                            @if (rosterPlay.SelectedSlots[index] != null)
+                                            @if (editRoster.SelectedPlayers[index] != null)
                                             {
-                                                string currentPosition = rosterPlay.SelectedSlots[index];
+                                                string currentPosition = editRoster.SelectedPlayers[index];
                                                 @if (player.position == currentPosition)
                                                 {
                                                     <option value="@player.name">@player.name</option>
@@ -63,17 +63,17 @@ else
                     <div class="col-md-2">
                         <div class="card" style="border: 2px solid#000;">
                             <div class="card-body">
-                                <h5 class="card-title">Slot @(i + 1): <strong>@rosterPlay.SelectedSlots[index]</strong></h5>
+                                <h5 class="card-title">Slot @(i + 1): <strong>@editRoster.SelectedPlayers[index]</strong></h5>
                                 <div class="form-group">
                                     <label for="@($"slot{i}")" class="form-label">Player:</label>
                                     <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
                                         <option value=""></option>
                                         @foreach (var player in teamApi.players.OrderBy(p => p.position))
                                         {
-                                            @if (rosterPlay.SelectedSlots[index] != null)
+                                            @if (editRoster.SelectedPlayers[index] != null)
                                             {
                                                 @*Only displays players if the user selected the slot previously*@
-                                                string currentPosition = rosterPlay.SelectedSlots[index];
+                                                string currentPosition = editRoster.SelectedPlayers[index];
                                                 @if (player.position == currentPosition)
                                                 {
                                                     @*Displays players from the position selected in that slot*@
@@ -177,7 +177,7 @@ else
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient("Proxy");
+        var client = _clientFactory.CreateClient();
 
         HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
         //recieves whether getting the apis info was succesfull or not
@@ -231,7 +231,7 @@ else
     private void EditRoster(Roster roster)
     {
         editRoster = roster;
-        // rosterPlay = RosterPlayProvider.SelectedPlayAsync(editRoster);
+        TheSlots = new Slots(roster);
         editVisible = true;
     }
 
