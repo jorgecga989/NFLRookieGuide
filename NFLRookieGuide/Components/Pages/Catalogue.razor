@@ -1,14 +1,16 @@
 ﻿@page "/catalogue"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.EntityFrameworkCore
 @using NFLRookieGuide.Context
 @using NFLRookieGuide.Model
+@using System.ComponentModel.DataAnnotations
 @inject UserProvider UserProvider
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject RosterProvider RosterProvider
+@inject RosterPlayProvider RosterPlayProvider
+@inject IHttpClientFactory _clientFactory
 @attribute [Authorize]
-
 
 @if (rosters is null)
 {
@@ -20,6 +22,85 @@ else if (!rosters.Any())
 }
 else
 {
+    if (editVisible == true)
+    {
+        <p>editRoster.Name</p>
+        <EditForm Model="@Rosters" OnValidSubmit="Update">
+            <div class="row mb-3 justify-content-center">
+                @for (int i = 0; i < 5; i++) // First 5 slots
+                {
+                    int index = i; // Must be initialized in the loop to be used in @bind-Value
+                    <div class="col-md-2">
+                        <div class="card" style="border: 2px solid#000;">
+                            <div class="card-body">
+                                <h5 class="card-title">Slot @(i + 1): <strong>@rosterPlay.SelectedSlots[index]</strong></h5>
+                                <div class="form-group">
+                                    <label for="@($"slot{i}")" class="form-label">Player:</label>
+                                    <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                        <option value=""></option>
+                                        @foreach (var player in teamApi.players.OrderBy(p => p.position))
+                                        {
+                                            @if (rosterPlay.SelectedSlots[index] != null)
+                                            {
+                                                string currentPosition = rosterPlay.SelectedSlots[index];
+                                                @if (player.position == currentPosition)
+                                                {
+                                                    <option value="@player.name">@player.name</option>
+                                                }
+                                            }
+                                        }
+                                    </InputSelect>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="row justify-content-center mt-5">
+                @for (int i = 5; i < 10; i++)
+                {
+                    int index = i; // Must be initialized in the loop to be used in @bind-Value
+                    <div class="col-md-2">
+                        <div class="card" style="border: 2px solid#000;">
+                            <div class="card-body">
+                                <h5 class="card-title">Slot @(i + 1): <strong>@rosterPlay.SelectedSlots[index]</strong></h5>
+                                <div class="form-group">
+                                    <label for="@($"slot{i}")" class="form-label">Player:</label>
+                                    <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                        <option value=""></option>
+                                        @foreach (var player in teamApi.players.OrderBy(p => p.position))
+                                        {
+                                            @if (rosterPlay.SelectedSlots[index] != null)
+                                            {
+                                                @*Only displays players if the user selected the slot previously*@
+                                                string currentPosition = rosterPlay.SelectedSlots[index];
+                                                @if (player.position == currentPosition)
+                                                {
+                                                    @*Displays players from the position selected in that slot*@
+                                                    <option value="@player.name">@player.name</option>
+                                                }
+                                            }
+                                        }
+                                    </InputSelect>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-danger btn-lg">Save</button>
+                    <div class="col-auto  ">
+                        <label for="name" class="form-label mt-5 fs-5"><strong>Name your roster:</strong></label>
+                        <InputText id="name" @bind-Value="TheSlots.Name" class="form_control" style="border: 2px solid#000; " />
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    }
+
     <h1 style="font-size: 55px; text-align:center; margin-top: 50px;" class="mb-4">Your teams</h1>
 
     <div style="margin-top: 75px;">
@@ -58,7 +139,7 @@ else
                         <td>
                             <div class="d-flex justify-content-between align-items-center" style="gap: 5px;">
                                 <button class="btn btn-danger" style="padding: 8px 12px; font-size: 14px;" @onclick="() => Delete(roster)">Delete</button>
-                                <button class="btn btn-primary" style="padding: 8px 12px; font-size: 14px;">Edit</button>
+                                <button class="btn btn-primary" style="padding: 8px 12px; font-size: 14px;" @onclick="() => EditRoster(roster)">Edit</button>
                             </div>
                         </td>
                     </tr>
@@ -72,7 +153,19 @@ else
 
 
 @code {
+    private Slots? TheSlots { get; set; }
+    private Roster? Rosters { get; set; }
     private List<Roster> rosters = new List<Roster>();
+    private bool editVisible = false;
+    private Roster editRoster = null;
+    private RosterPlay rosterPlay;
+
+    public string chosenTeam = "Patriots";
+    public string IdChosenTeam;
+
+    TeamAPI teamApi;
+    TeamsAPI teamsApi;
+    string errorString;
 
     protected async override Task OnInitializedAsync()
     {
@@ -80,7 +173,49 @@ else
         var username = authstate.User!.Identity!.Name!;
         var user = UserProvider.GetUserByUsername(username);
 
-        rosters = (await RosterProvider.GetRostersAsync(user!)).ToList();
+        rosters = await RosterProvider.GetRostersAsync(user);
+
+        var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
+            "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
+        var client = _clientFactory.CreateClient("Proxy");
+
+        HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
+        //recieves whether getting the apis info was succesfull or not
+
+        if (AllTeamsresponse.IsSuccessStatusCode)
+        {
+            teamsApi = await AllTeamsresponse.Content.ReadFromJsonAsync<TeamsAPI>();
+            errorString = null;
+        }
+        else
+        {
+            errorString = "Error loading data";
+            return;
+        }
+
+
+        for (int i = 0; i < teamsApi.teams.Count; i++)
+        {
+            if (chosenTeam == teamsApi.teams[i].name)
+            {
+                IdChosenTeam = teamsApi.teams[i].id;
+            }
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://api.sportradar.com/nfl/official/trial/v7/en/teams/{IdChosenTeam}/profile.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
+
+        HttpResponseMessage response = client.Send(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            teamApi = await response.Content.ReadFromJsonAsync<TeamAPI>();
+            errorString = null;
+        }
+        else
+        {
+            errorString = "Error loading data";
+        }
     }
 
     private async Task Delete(Roster roster)
@@ -88,10 +223,45 @@ else
         await RosterProvider.DeleteRosterAsync(roster);
         // Remove the roster
         rosters.Remove(roster);
-        // Update the UI
         StateHasChanged();
         // Update the UI
 
     }
 
+    private void EditRoster(Roster roster)
+    {
+        editRoster = roster;
+        // rosterPlay = RosterPlayProvider.SelectedPlayAsync(editRoster);
+        editVisible = true;
+    }
+
+    private async Task Update()
+    {
+        
+    }
+
+    private sealed class Slots
+    {
+        //New list for users selections
+        public List<string> SelectedSlots { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public Slots()
+        {
+            //start off the list
+            SelectedSlots = new List<string>();
+            for (var x = 1; x < 11; x++)
+            {
+                SelectedSlots.Add("");
+            }
+        }
+
+        public Slots(Roster roster)
+        {
+            SelectedSlots = roster.SelectedPlayers!;
+            Name = roster.Name;
+        }
+    }
 }

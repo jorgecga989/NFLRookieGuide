@@ -22,6 +22,12 @@ namespace NFLRookieGuide.Context
             //Gets the play that the user recently created
         }
 
+        public async Task<RosterPlay?> SelectedPlayAsync(Roster roster)
+        {
+            return await _context.RosterPlays
+                .FirstOrDefaultAsync(rp => rp.Id == roster.Id);
+        }
+
         public async Task AddRosterPlayAsync(RosterPlay rosterPlay)
         {
             _context.RosterPlays.Add(rosterPlay);

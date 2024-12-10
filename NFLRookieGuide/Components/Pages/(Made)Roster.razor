@@ -16,7 +16,6 @@
 
 
 <h1 style="text-align:center;" class="mb-4">Select your players for your chosen positions</h1>
-<h4 style="text-align: center;" class="mb-4"></h4>
 
 <EditForm Model="@TheSlots" OnValidSubmit="Save">
     <div class="row mb-3 justify-content-center">
@@ -143,7 +142,7 @@ else
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient();
+        var client = _clientFactory.CreateClient("Proxy");
 
         HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
         //recieves whether getting the apis info was succesfull or not
