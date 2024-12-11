@@ -61,5 +61,10 @@ namespace NFLRookieGuide.Context
             _context.Rosters.Update(roster);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Roster?> GetRosterByIdAsync(int id)
+        {
+            return await _context.Rosters.FirstOrDefaultAsync(r => r.Id == id);
+        }
     }
 }

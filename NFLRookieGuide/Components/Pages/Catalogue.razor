@@ -18,89 +18,12 @@
 }
 else if (!rosters.Any())
 {
-    <h3 style="text-align:center; margin-top: 100px;" class="mb-4">No rosters have been created! </h3>
+    <h3 style="text-align:center; margin-top: 100px;" class="mb-4">No rosters have been created!</h3>
 }
 else
 {
-    if (editVisible == true)
-    {
-        <EditForm Model="@TheSlots" OnValidSubmit="Update">
-            <div class="row mb-3 justify-content-center">
-                @for (int i = 0; i < 5; i++) // First 5 slots
-                {
-                    int index = i; // Must be initialized in the loop to be used in @bind-Value
-                    <div class="col-md-2">
-                        <div class="card" style="border: 2px solid#000;">
-                            <div class="card-body">
-                                <h5 class="card-title">Slot @(i + 1):</h5>
-                                <div class="form-group">
-                                    <label for="@($"slot{i}")" class="form-label">Player:</label>
-                                    <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
-                                        <option value="@editRoster.SelectedPlayers[index]"></option>
-                                        @foreach (var player in teamApi.players.OrderBy(p => p.position))
-                                        {
-                                            @if (rosterPlay.SelectedSlots[index] != null)
-                                            {
-                                                string currentPosition = rosterPlay.SelectedSlots[index];
-                                                @if (player.position == currentPosition)
-                                                {
-                                                    <option value="@player.name">@player.name</option>
-                                                }
-                                            }
-                                        }
-                                    </InputSelect>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="row justify-content-center mt-5">
-                @for (int i = 5; i < 10; i++)
-                {
-                    int index = i; // Must be initialized in the loop to be used in @bind-Value
-                    <div class="col-md-2">
-                        <div class="card" style="border: 2px solid#000;">
-                            <div class="card-body">
-                                <h5 class="card-title">Slot @(i + 1):</h5>
-                                <div class="form-group">
-                                    <label for="@($"slot{i}")" class="form-label">Player:</label>
-                                    <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
-                                        <option value="">@editRoster.SelectedPlayers[index]</option>
-                                        @foreach (var player in teamApi.players.OrderBy(p => p.position))
-                                        {
-                                            @if (rosterPlay.SelectedSlots[index] != null)
-                                            {
-                                                string currentPosition = rosterPlay.SelectedSlots[index];
-                                                @if (player.position == currentPosition)
-                                                {
-                                                    <option value="@player.name">@player.name</option>
-                                                }
-                                            }
-                                        }
-                                    </InputSelect>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <div class="row justify-content-center mt-4">
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-danger btn-lg">Save</button>
-                    <div class="col-auto  ">
-                        <label for="name" class="form-label mt-5 fs-5"><strong>Name your roster:</strong></label>
-                        <InputText id="name" @bind-Value="TheSlots.Name" class="form_control" style="border: 2px solid#000; " />
-                    </div>
-                </div>
-            </div>
-        </EditForm>
-    }
-
-    <h1 style="font-size: 55px; text-align:center; margin-top: 50px;" class="mb-4">Your teams</h1>
-
-    <div style="margin-top: 75px;">
+    <h1 style="font-size: 40px; text-align:center; margin-top: 30px;" class="mb-4">Your teams</h1>
+    <div style="margin-top: 50px;">
         <table class="table table-striped table-bordered" style="table-layout: fixed; width: 100%;">
             <thead style="background-color: #d3d3d3;">
                 <tr>
@@ -144,9 +67,109 @@ else
             </tbody>
         </table>
     </div>
-
-
+    if (editVisible == true)
+    {
+        <h1 style="margin-top: 30px;">-------------------------------------------------------------------------------</h1>
+        <div class="container mt-3">
+            <h1 class="text-center mb-4" style="font-size: 40px;">@editRoster.Name</h1>
+            <EditForm Model="@TheSlots" OnValidSubmit="Update">
+                <div class="row mb-3 justify-content-center">
+                    @for (int i = 0; i < 5; i++) // First 5 slots
+                    {
+                        int index = i; // Must be initialized in the loop to be used in @bind-Value
+                        <div class="col-md-2">
+                            <div class="card" style="border: 2px solid#000;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Slot @(i + 1):</h5>
+                                    <div class="form-group">
+                                        @if (rosterPlay.SelectedSlots[i] != "")
+                                        {
+                                            <label for="@($"slot{i}")" class="form-label">Player: </label>
+                                        }
+                                        else
+                                        {
+                                            <label for="@($"slot{i}")" class="form-label">Not available</label>
+                                        }
+                                        <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                            <option value="@editRoster.SelectedPlayers[index]">@editRoster.SelectedPlayers[index]</option>
+                                            @foreach (var player in teamApi.players.OrderBy(p => p.position))
+                                            {
+                                                @if (rosterPlay.SelectedSlots[index] != null)
+                                                {
+                                                    string currentPosition = rosterPlay.SelectedSlots[index];
+                                                    @if (player.position == currentPosition)
+                                                    {
+                                                        @if (player.name != editRoster.SelectedPlayers[index])
+                                                        {
+                                                            <option value="@player.name">@player.name</option>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </InputSelect>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row justify-content-center mt-5">
+                    @for (int i = 5; i < 10; i++)
+                    {
+                        int index = i; // Must be initialized in the loop to be used in @bind-Value
+                        <div class="col-md-2">
+                            <div class="card" style="border: 2px solid#000;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Slot @(i + 1):</h5>
+                                    <div class="form-group">
+                                        @if (rosterPlay.SelectedSlots[i] != "")
+                                        {
+                                            <label for="@($"slot{i}")" class="form-label">Player: </label>
+                                        }
+                                        else
+                                        {
+                                            <label for="@($"slot{i}")" class="form-label">Not available</label>
+                                        }
+                                        <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                            <option value="@editRoster.SelectedPlayers[index]">@editRoster.SelectedPlayers[index]</option>
+                                            @foreach (var player in teamApi.players.OrderBy(p => p.position))
+                                            {
+                                                @if (rosterPlay.SelectedSlots[index] != null)
+                                                {
+                                                    string currentPosition = rosterPlay.SelectedSlots[index];
+                                                    @if (player.position == currentPosition)
+                                                    {
+                                                        @if (player.name != editRoster.SelectedPlayers[index])
+                                                        {
+                                                            <option value="@player.name">@player.name</option>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </InputSelect>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <div class="col-auto">
+                        <label for="name" class="form-label fs-5"><strong>Edit your rosters name:</strong></label>
+                        <InputText id="name" @bind-Value="editRoster.Name" class="form_control" style="border: 2px solid#000;" />
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <div class="col-auto d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-lg mx-3" style="width: 150px;">Update</button>
+                        <button type="button" class="btn btn-danger btn-lg mx-3" @onclick="CloseForm" style="width: 150px;">Close</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    }
 }
+
 
 
 @code {
@@ -174,7 +197,7 @@ else
 
         var AllTeamsrequest = new HttpRequestMessage(HttpMethod.Get,
             "https://api.sportradar.com/nfl/official/trial/v7/en/league/teams.json?api_key=ioBlppUrp2jlVDWNRdx2AO1uUnqo2AFnstrtMIJC");
-        var client = _clientFactory.CreateClient("Proxy");
+        var client = _clientFactory.CreateClient();
 
         HttpResponseMessage AllTeamsresponse = client.Send(AllTeamsrequest);
         //recieves whether getting the apis info was succesfull or not
@@ -226,6 +249,10 @@ else
         // Update the UI
 
     }
+    private void CloseForm()
+    {
+        editVisible = false;
+    }
 
     private async Task EditRoster(Roster roster)
     {
@@ -237,7 +264,14 @@ else
 
     private async Task Update()
     {
-        
+        var existingRoster = await RosterProvider.GetRosterByIdAsync(editRoster.Id);
+
+        existingRoster.Name = editRoster.Name;
+        existingRoster.SelectedPlayers = editRoster.SelectedPlayers;
+
+        await RosterProvider.UpdateRosterAsync(existingRoster);
+
+        editVisible = false;
     }
 
     private sealed class Slots
