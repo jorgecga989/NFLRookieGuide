@@ -76,7 +76,7 @@ else
                 <div class="row mb-3 justify-content-center">
                     @for (int i = 0; i < 5; i++) // First 5 slots
                     {
-                        int index = i; // Must be initialized in the loop to be used in @bind-Value
+                        int index = i; // Must be initialized in the loop to bind value
                         <div class="col-md-2">
                             <div class="card" style="border: 2px solid#000;">
                                 <div class="card-body">
@@ -88,19 +88,22 @@ else
                                         }
                                         else
                                         {
+                                            //lets user know that this slot has no position assigned
                                             <label for="@($"slot{i}")" class="form-label">Not available</label>
                                         }
-                                        <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                        <InputSelect id="@($"slot{i}")" @bind-Value="@editRoster.SelectedPlayers[index]" class="form-control" style="border: 2px solid#000;">
                                             <option value="@editRoster.SelectedPlayers[index]">@editRoster.SelectedPlayers[index]</option>
                                             @foreach (var player in teamApi.players.OrderBy(p => p.position))
                                             {
                                                 @if (rosterPlay.SelectedSlots[index] != null)
                                                 {
+                                                    //doesn't give options to slots with no positions assigned
                                                     string currentPosition = rosterPlay.SelectedSlots[index];
                                                     @if (player.position == currentPosition)
                                                     {
                                                         @if (player.name != editRoster.SelectedPlayers[index])
                                                         {
+                                                            //avoids repeat names
                                                             <option value="@player.name">@player.name</option>
                                                         }
                                                     }
@@ -130,7 +133,7 @@ else
                                         {
                                             <label for="@($"slot{i}")" class="form-label">Not available</label>
                                         }
-                                        <InputSelect id="@($"slot{i}")" @bind-Value="TheSlots!.SelectedSlots[index]" class="form-control" style="border: 2px solid#000;">
+                                        <InputSelect id="@($"slot{i}")" @bind-Value="@editRoster.SelectedPlayers[index]" class="form-control" style="border: 2px solid#000;">
                                             <option value="@editRoster.SelectedPlayers[index]">@editRoster.SelectedPlayers[index]</option>
                                             @foreach (var player in teamApi.players.OrderBy(p => p.position))
                                             {
@@ -257,17 +260,23 @@ else
     private async Task EditRoster(Roster roster)
     {
         editRoster = roster;
+        //saves the clicked roster into another variable
         TheSlots = new Slots(roster);
+        //initializes a new slots object to use with form
         rosterPlay = await RosterPlayProvider.SelectedPlayAsync(editRoster);
+        //gets respective play for roster
         editVisible = true;
+        //triggers the form
     }
 
     private async Task Update()
     {
         var existingRoster = await RosterProvider.GetRosterByIdAsync(editRoster.Id);
+        // gets the roster worked on
 
         existingRoster.Name = editRoster.Name;
         existingRoster.SelectedPlayers = editRoster.SelectedPlayers;
+        //binds updated values
 
         await RosterProvider.UpdateRosterAsync(existingRoster);
 

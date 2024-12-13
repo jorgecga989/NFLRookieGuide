@@ -65,6 +65,7 @@ namespace NFLRookieGuide.Context
         public async Task<Roster?> GetRosterByIdAsync(int id)
         {
             return await _context.Rosters.FirstOrDefaultAsync(r => r.Id == id);
+            //links id of roster worked on and edited roster
         }
     }
 }
